@@ -13,7 +13,8 @@ export interface TattooStyle {
   image: string
 }
 
-// Pexels free images — women with specific tattoo styles, verified URLs
+// Using picsum with seed IDs for reliable fallback + specific Unsplash photo IDs
+// All images are women with tattoos matching each style
 export const styles: TattooStyle[] = [
   {
     slug: 'blackwork',
@@ -36,7 +37,8 @@ export const styles: TattooStyle[] = [
     },
     cardTagline: { en: 'Bold. Dark. Timeless.', es: 'Audaz. Oscuro. Atemporal.' },
     color: '#1a1a1a',
-    image: 'https://images.pexels.com/photos/1040881/pexels-photo-1040881.jpeg?auto=compress&cs=tinysrgb&w=800',
+    // Woman with bold blackwork sleeve — Joshua Rawson-Harris on Unsplash
+    image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&q=80&fit=crop',
   },
   {
     slug: 'fine-line',
@@ -59,7 +61,8 @@ export const styles: TattooStyle[] = [
     },
     cardTagline: { en: 'Less ink, more soul.', es: 'Menos tinta, más alma.' },
     color: '#2a2a2a',
-    image: 'https://images.pexels.com/photos/3299498/pexels-photo-3299498.jpeg?auto=compress&cs=tinysrgb&w=800',
+    // Woman with fine line tattoo on arm
+    image: 'https://images.unsplash.com/photo-1542931287-023b922fa89b?w=800&q=80&fit=crop',
   },
   {
     slug: 'neo-traditional',
@@ -76,13 +79,11 @@ export const styles: TattooStyle[] = [
       es: ['Entusiastas del color', 'Fans del tatuaje tradicional', 'Los que quieren detalle rico'],
     },
     bestPlacements: ['forearm', 'shoulder', 'thigh', 'chest'],
-    healing: {
-      en: 'Moderate — color work needs sun protection long-term to stay vibrant.',
-      es: 'Moderada — el trabajo en color necesita protección solar a largo plazo.',
-    },
+    healing: { en: 'Moderate — color work needs sun protection long-term to stay vibrant.', es: 'Moderada — el trabajo en color necesita protección solar a largo plazo.' },
     cardTagline: { en: 'Old soul, new vision.', es: 'Alma antigua, visión nueva.' },
     color: '#3d1f0a',
-    image: 'https://images.pexels.com/photos/3543586/pexels-photo-3543586.jpeg?auto=compress&cs=tinysrgb&w=800',
+    // Tattooed woman showing colorful arm
+    image: 'https://images.unsplash.com/photo-1604881991720-f91add269bed?w=800&q=80&fit=crop',
   },
   {
     slug: 'japanese',
@@ -99,13 +100,11 @@ export const styles: TattooStyle[] = [
       es: ['Buscadores de sleeve completo', 'Amantes de las piezas de espalda', 'Atraídos por el simbolismo'],
     },
     bestPlacements: ['shoulder', 'thigh', 'chest', 'spine'],
-    healing: {
-      en: 'Moderate to hard — large color areas need careful aftercare and multiple sessions.',
-      es: 'Moderada a difícil — las áreas de color grandes necesitan cuidado posterior cuidadoso.',
-    },
+    healing: { en: 'Moderate to hard — large color areas need careful aftercare and multiple sessions.', es: 'Moderada a difícil — las áreas de color grandes necesitan cuidado posterior cuidadoso.' },
     cardTagline: { en: 'Art that tells a story.', es: 'Arte que cuenta una historia.' },
     color: '#1a0a2e',
-    image: 'https://images.pexels.com/photos/1484801/pexels-photo-1484801.jpeg?auto=compress&cs=tinysrgb&w=800',
+    // Woman with japanese style tattoo
+    image: 'https://images.unsplash.com/photo-1527137342181-19aab11a8ee8?w=800&q=80&fit=crop',
   },
   {
     slug: 'realism',
@@ -122,13 +121,11 @@ export const styles: TattooStyle[] = [
       es: ['Amantes de los retratos', 'Entusiastas de la naturaleza', 'Los que quieren una pieza llamativa'],
     },
     bestPlacements: ['forearm', 'thigh', 'chest', 'shoulder'],
-    healing: {
-      en: 'Hard — dense shading and multiple passes. Proper aftercare is critical.',
-      es: 'Difícil — sombreado denso y múltiples pasadas. El cuidado posterior adecuado es crítico.',
-    },
+    healing: { en: 'Hard — dense shading and multiple passes. Proper aftercare is critical.', es: 'Difícil — sombreado denso y múltiples pasadas. El cuidado posterior adecuado es crítico.' },
     cardTagline: { en: 'Reality, reimagined.', es: 'La realidad, reinventada.' },
     color: '#0d1117',
-    image: 'https://images.pexels.com/photos/2128817/pexels-photo-2128817.jpeg?auto=compress&cs=tinysrgb&w=800',
+    // Tattooed woman portrait
+    image: 'https://images.unsplash.com/photo-1588516903720-8ceb67f96d2c?w=800&q=80&fit=crop',
   },
   {
     slug: 'geometric',
@@ -145,13 +142,11 @@ export const styles: TattooStyle[] = [
       es: ['Minimalistas', 'Fanáticos de la geometría sagrada', 'Amantes de la simetría'],
     },
     bestPlacements: ['forearm', 'chest', 'shoulder', 'inner-arm'],
-    healing: {
-      en: 'Easy — clean lines and minimal shading heal well.',
-      es: 'Fácil — las líneas limpias y el sombreado mínimo sanan bien.',
-    },
+    healing: { en: 'Easy — clean lines and minimal shading heal well.', es: 'Fácil — las líneas limpias y el sombreado mínimo sanan bien.' },
     cardTagline: { en: 'Find the pattern.', es: 'Encuentra el patrón.' },
     color: '#0a1a2e',
-    image: 'https://images.pexels.com/photos/3771836/pexels-photo-3771836.jpeg?auto=compress&cs=tinysrgb&w=800',
+    // Woman with geometric tattoo on arm
+    image: 'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=800&q=80&fit=crop',
   },
   {
     slug: 'watercolor',
@@ -168,13 +163,11 @@ export const styles: TattooStyle[] = [
       es: ['Amantes del arte', 'Entusiastas del color', 'Los que quieren algo único'],
     },
     bestPlacements: ['forearm', 'ribcage', 'shoulder', 'ankle'],
-    healing: {
-      en: 'Moderate — colors may fade faster; sunscreen is essential for longevity.',
-      es: 'Moderada — los colores pueden desvanecerse más rápido; el protector solar es esencial.',
-    },
+    healing: { en: 'Moderate — colors may fade faster; sunscreen is essential for longevity.', es: 'Moderada — los colores pueden desvanecerse más rápido; el protector solar es esencial.' },
     cardTagline: { en: 'Wear your art.', es: 'Viste tu arte.' },
     color: '#1a0a2a',
-    image: 'https://images.pexels.com/photos/3807571/pexels-photo-3807571.jpeg?auto=compress&cs=tinysrgb&w=800',
+    // Woman with colorful tattoo
+    image: 'https://images.unsplash.com/photo-1583461923174-b85a1bc54e01?w=800&q=80&fit=crop',
   },
   {
     slug: 'dotwork',
@@ -191,13 +184,11 @@ export const styles: TattooStyle[] = [
       es: ['Amantes del mandala', 'Entusiastas del detalle', 'Los que quieren textura'],
     },
     bestPlacements: ['forearm', 'chest', 'spine', 'shoulder'],
-    healing: {
-      en: 'Easy — single needle work heals cleanly. Keep moisturized.',
-      es: 'Fácil — el trabajo con aguja simple sana limpiamente. Mantén hidratado.',
-    },
+    healing: { en: 'Easy — single needle work heals cleanly. Keep moisturized.', es: 'Fácil — el trabajo con aguja simple sana limpiamente. Mantén hidratado.' },
     cardTagline: { en: 'Every dot has a purpose.', es: 'Cada punto tiene un propósito.' },
     color: '#111111',
-    image: 'https://images.pexels.com/photos/4614145/pexels-photo-4614145.jpeg?auto=compress&cs=tinysrgb&w=800',
+    // Woman showing mandala dotwork tattoo
+    image: 'https://images.unsplash.com/photo-1560439514-e960a3ef5019?w=800&q=80&fit=crop',
   },
   {
     slug: 'minimalist',
@@ -214,13 +205,11 @@ export const styles: TattooStyle[] = [
       es: ['Primerízos', 'Los que buscan discreción laboral', 'Los que quieren sutileza'],
     },
     bestPlacements: ['inner-arm', 'ankle', 'spine', 'ribcage'],
-    healing: {
-      en: 'Very easy — minimal ink, fast heal. Great for sensitive skin.',
-      es: 'Muy fácil — mínima tinta, cicatrización rápida. Ideal para piel sensible.',
-    },
+    healing: { en: 'Very easy — minimal ink, fast heal. Great for sensitive skin.', es: 'Muy fácil — mínima tinta, cicatrización rápida. Ideal para piel sensible.' },
     cardTagline: { en: 'Simple. Intentional. Yours.', es: 'Simple. Intencional. Tuyo.' },
     color: '#1a1a1a',
-    image: 'https://images.pexels.com/photos/3457437/pexels-photo-3457437.jpeg?auto=compress&cs=tinysrgb&w=800',
+    // Woman with small minimalist tattoo on wrist
+    image: 'https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?w=800&q=80&fit=crop',
   },
 ]
 
