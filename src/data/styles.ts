@@ -10,6 +10,7 @@ export interface TattooStyle {
   healing: { en: string; es: string }
   cardTagline: { en: string; es: string }
   color: string
+  image: string
 }
 
 export const styles: TattooStyle[] = [
@@ -34,6 +35,7 @@ export const styles: TattooStyle[] = [
     },
     cardTagline: { en: 'Bold. Dark. Timeless.', es: 'Audaz. Oscuro. Atemporal.' },
     color: '#1a1a1a',
+    image: 'https://images.unsplash.com/photo-1590246814883-57764b1a1e2d?w=800&q=80',
   },
   {
     slug: 'fine-line',
@@ -56,6 +58,7 @@ export const styles: TattooStyle[] = [
     },
     cardTagline: { en: 'Less ink, more soul.', es: 'Menos tinta, más alma.' },
     color: '#2a2a2a',
+    image: 'https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=800&q=80',
   },
   {
     slug: 'neo-traditional',
@@ -72,19 +75,17 @@ export const styles: TattooStyle[] = [
       es: ['Entusiastas del color', 'Fans del tatuaje tradicional', 'Los que quieren detalle rico'],
     },
     bestPlacements: ['forearm', 'shoulder', 'thigh', 'chest'],
-    healing: {
-      en: 'Moderate — color work needs sun protection long-term to stay vibrant.',
-      es: 'Moderada — el trabajo en color necesita protección solar a largo plazo para mantener su brillo.',
-    },
+    healing: { en: 'Moderate — color work needs sun protection long-term to stay vibrant.', es: 'Moderada — el trabajo en color necesita protección solar a largo plazo.' },
     cardTagline: { en: 'Old soul, new vision.', es: 'Alma antigua, visión nueva.' },
     color: '#3d1f0a',
+    image: 'https://images.unsplash.com/photo-1562962230-16b5a2a2609e?w=800&q=80',
   },
   {
     slug: 'japanese',
     name: { en: 'Japanese', es: 'Japonés' },
     description: {
       en: 'Rooted in Irezumi tradition, Japanese tattoos feature iconic motifs — koi fish, dragons, cherry blossoms — in bold outlines with smooth gradients and rich symbolism.',
-      es: 'Con raíces en la tradición Irezumi, los tatuajes japoneses presentan motivos icónicos — koi, dragones, flores de cerezo — en contornos audaces con gradientes suaves y rico simbolismo.',
+      es: 'Con raíces en la tradición Irezumi, los tatuajes japoneses presentan motivos icónicos — koi, dragones, flores de cerezo — con rico simbolismo.',
     },
     shortDesc: { en: 'Timeless Eastern artistry', es: 'Arte oriental atemporal' },
     tags: ['bold', 'colorful', 'spiritual', 'large-scale'],
@@ -94,12 +95,10 @@ export const styles: TattooStyle[] = [
       es: ['Buscadores de sleeve completo', 'Amantes de las piezas de espalda', 'Atraídos por el simbolismo'],
     },
     bestPlacements: ['shoulder', 'thigh', 'chest', 'spine'],
-    healing: {
-      en: 'Moderate to hard — large color areas need careful aftercare and multiple sessions.',
-      es: 'Moderada a difícil — las áreas de color grandes necesitan cuidado posterior cuidadoso y múltiples sesiones.',
-    },
+    healing: { en: 'Moderate to hard — large color areas need careful aftercare and multiple sessions.', es: 'Moderada a difícil — las áreas de color grandes necesitan cuidado posterior cuidadoso.' },
     cardTagline: { en: 'Art that tells a story.', es: 'Arte que cuenta una historia.' },
     color: '#1a0a2e',
+    image: 'https://images.unsplash.com/photo-1619451334792-150fd785ee74?w=800&q=80',
   },
   {
     slug: 'realism',
@@ -116,19 +115,17 @@ export const styles: TattooStyle[] = [
       es: ['Amantes de los retratos', 'Entusiastas de la naturaleza', 'Los que quieren una pieza llamativa'],
     },
     bestPlacements: ['forearm', 'thigh', 'chest', 'shoulder'],
-    healing: {
-      en: 'Hard — dense shading and multiple passes. Proper aftercare is critical.',
-      es: 'Difícil — sombreado denso y múltiples pasadas. El cuidado posterior adecuado es crítico.',
-    },
+    healing: { en: 'Hard — dense shading and multiple passes. Proper aftercare is critical.', es: 'Difícil — sombreado denso y múltiples pasadas. El cuidado posterior adecuado es crítico.' },
     cardTagline: { en: 'Reality, reimagined.', es: 'La realidad, reinventada.' },
     color: '#0d1117',
+    image: 'https://images.unsplash.com/photo-1547887538-047f4e359f2e?w=800&q=80',
   },
   {
     slug: 'geometric',
     name: { en: 'Geometric', es: 'Geométrico' },
     description: {
       en: 'Precise patterns, shapes, and sacred geometry form intricate compositions. Often combined with dotwork, geometric tattoos carry mathematical beauty and spiritual meaning.',
-      es: 'Patrones precisos, formas y geometría sagrada forman composiciones intrincadas. A menudo combinado con puntillismo, los tatuajes geométricos llevan belleza matemática.',
+      es: 'Patrones precisos, formas y geometría sagrada forman composiciones intrincadas. A menudo combinado con puntillismo, llevan belleza matemática.',
     },
     shortDesc: { en: 'Sacred shapes, perfect lines', es: 'Formas sagradas, líneas perfectas' },
     tags: ['minimal', 'dark', 'spiritual', 'graphic'],
@@ -138,12 +135,10 @@ export const styles: TattooStyle[] = [
       es: ['Minimalistas', 'Fanáticos de la geometría sagrada', 'Amantes de la simetría'],
     },
     bestPlacements: ['forearm', 'chest', 'shoulder', 'inner-arm'],
-    healing: {
-      en: 'Easy — clean lines and minimal shading heal well.',
-      es: 'Fácil — las líneas limpias y el sombreado mínimo sanan bien.',
-    },
+    healing: { en: 'Easy — clean lines and minimal shading heal well.', es: 'Fácil — las líneas limpias y el sombreado mínimo sanan bien.' },
     cardTagline: { en: 'Find the pattern.', es: 'Encuentra el patrón.' },
     color: '#0a1a2e',
+    image: 'https://images.unsplash.com/photo-1590246815117-ebe6b07b4b1c?w=800&q=80',
   },
   {
     slug: 'watercolor',
@@ -160,12 +155,10 @@ export const styles: TattooStyle[] = [
       es: ['Amantes del arte', 'Entusiastas del color', 'Los que quieren algo único'],
     },
     bestPlacements: ['forearm', 'ribcage', 'shoulder', 'ankle'],
-    healing: {
-      en: 'Moderate — colors may fade faster; sunscreen is essential for longevity.',
-      es: 'Moderada — los colores pueden desvanecerse más rápido; el protector solar es esencial.',
-    },
+    healing: { en: 'Moderate — colors may fade faster; sunscreen is essential for longevity.', es: 'Moderada — los colores pueden desvanecerse más rápido; el protector solar es esencial.' },
     cardTagline: { en: 'Wear your art.', es: 'Viste tu arte.' },
     color: '#1a0a2a',
+    image: 'https://images.unsplash.com/photo-1565058379802-bbe93b2f703a?w=800&q=80',
   },
   {
     slug: 'dotwork',
@@ -182,12 +175,10 @@ export const styles: TattooStyle[] = [
       es: ['Amantes del mandala', 'Entusiastas del detalle', 'Los que quieren textura'],
     },
     bestPlacements: ['forearm', 'chest', 'spine', 'shoulder'],
-    healing: {
-      en: 'Easy — single needle work heals cleanly. Keep moisturized.',
-      es: 'Fácil — el trabajo con aguja simple sana limpiamente. Mantén hidratado.',
-    },
+    healing: { en: 'Easy — single needle work heals cleanly. Keep moisturized.', es: 'Fácil — el trabajo con aguja simple sana limpiamente. Mantén hidratado.' },
     cardTagline: { en: 'Every dot has a purpose.', es: 'Cada punto tiene un propósito.' },
     color: '#111111',
+    image: 'https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=800&q=80',
   },
   {
     slug: 'minimalist',
@@ -204,12 +195,10 @@ export const styles: TattooStyle[] = [
       es: ['Primerízos', 'Los que buscan discreción laboral', 'Los que quieren sutileza'],
     },
     bestPlacements: ['inner-arm', 'ankle', 'spine', 'ribcage'],
-    healing: {
-      en: 'Very easy — minimal ink, fast heal. Great for sensitive skin.',
-      es: 'Muy fácil — mínima tinta, cicatrización rápida. Ideal para piel sensible.',
-    },
+    healing: { en: 'Very easy — minimal ink, fast heal. Great for sensitive skin.', es: 'Muy fácil — mínima tinta, cicatrización rápida. Ideal para piel sensible.' },
     cardTagline: { en: 'Simple. Intentional. Yours.', es: 'Simple. Intencional. Tuyo.' },
     color: '#1a1a1a',
+    image: 'https://images.unsplash.com/photo-1607345366928-199ea26cfe3e?w=800&q=80',
   },
 ]
 

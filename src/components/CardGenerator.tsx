@@ -53,6 +53,7 @@ export default function CardGenerator({ style, onClose }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [theme, setTheme] = useState<'dark' | 'light' | 'gradient'>('dark')
   const [downloading, setDownloading] = useState(false)
+  const [downloadUrl, setDownloadUrl] = useState<string | null>(null)
 
   const keywords = PINTEREST_KEYWORDS[style.slug] ?? PINTEREST_KEYWORDS['minimalist']
   const kws = lang === 'es' ? keywords.es : keywords.en
@@ -63,7 +64,6 @@ export default function CardGenerator({ style, onClose }: Props) {
     if (!canvas) return
     const ctx = canvas.getContext('2d')
     if (!ctx) return
-
     canvas.width = 1000
     canvas.height = 1500
 
@@ -71,19 +71,13 @@ export default function CardGenerator({ style, onClose }: Props) {
       ctx.fillStyle = '#0A0A0A'
       ctx.fillRect(0, 0, 1000, 1500)
       ctx.fillStyle = 'rgba(255,255,255,0.015)'
-      for (let i = 0; i < 2000; i++) {
-        ctx.fillRect(Math.random() * 1000, Math.random() * 1500, 1, 1)
-      }
+      for (let i = 0; i < 2000; i++) ctx.fillRect(Math.random() * 1000, Math.random() * 1500, 1, 1)
     } else if (theme === 'light') {
-      ctx.fillStyle = '#F5F0E8'
-      ctx.fillRect(0, 0, 1000, 1500)
+      ctx.fillStyle = '#F5F0E8'; ctx.fillRect(0, 0, 1000, 1500)
     } else {
       const grad = ctx.createLinearGradient(0, 0, 0, 1500)
-      grad.addColorStop(0, '#0D0D0D')
-      grad.addColorStop(0.5, '#1A0505')
-      grad.addColorStop(1, '#0A0A0A')
-      ctx.fillStyle = grad
-      ctx.fillRect(0, 0, 1000, 1500)
+      grad.addColorStop(0, '#0D0D0D'); grad.addColorStop(0.5, '#1A0505'); grad.addColorStop(1, '#0A0A0A')
+      ctx.fillStyle = grad; ctx.fillRect(0, 0, 1000, 1500)
     }
 
     const isDark = theme !== 'light'
@@ -91,32 +85,20 @@ export default function CardGenerator({ style, onClose }: Props) {
     const textMuted = isDark ? '#8A8A8A' : '#555555'
     const accent = '#C13B2A'
 
-    ctx.fillStyle = accent
-    ctx.fillRect(0, 0, 1000, 10)
-    ctx.fillStyle = textMuted
-    ctx.font = '28px sans-serif'
-    ctx.textAlign = 'left'
+    ctx.fillStyle = accent; ctx.fillRect(0, 0, 1000, 10)
+    ctx.fillStyle = textMuted; ctx.font = '28px sans-serif'; ctx.textAlign = 'left'
     ctx.fillText('tattooguide.ink', 60, 70)
-    ctx.fillStyle = accent
-    ctx.font = 'bold 28px sans-serif'
-    ctx.textAlign = 'right'
+    ctx.fillStyle = accent; ctx.font = 'bold 28px sans-serif'; ctx.textAlign = 'right'
     ctx.fillText('@ar.inks', 940, 70)
-    ctx.strokeStyle = isDark ? '#1E1E1E' : '#DDDDDD'
-    ctx.lineWidth = 1
+    ctx.strokeStyle = isDark ? '#1E1E1E' : '#DDDDDD'; ctx.lineWidth = 1
     ctx.beginPath(); ctx.moveTo(60, 90); ctx.lineTo(940, 90); ctx.stroke()
-    ctx.fillStyle = accent
-    ctx.font = 'bold 22px sans-serif'
-    ctx.textAlign = 'center'
+    ctx.fillStyle = accent; ctx.font = 'bold 22px sans-serif'; ctx.textAlign = 'center'
     ctx.fillText(lang === 'en' ? 'TATTOO STYLE GUIDE' : 'GUÍA DE ESTILOS', 500, 160)
-    ctx.fillStyle = textPrimary
-    ctx.font = 'bold 108px serif'
-    ctx.textAlign = 'center'
+    ctx.fillStyle = textPrimary; ctx.font = 'bold 108px serif'; ctx.textAlign = 'center'
     ctx.fillText(t(style.name).toUpperCase(), 500, 310)
-    ctx.font = 'italic 46px serif'
-    ctx.fillStyle = isDark ? '#D4C8B8' : '#444444'
+    ctx.font = 'italic 46px serif'; ctx.fillStyle = isDark ? '#D4C8B8' : '#444444'
     ctx.fillText(`"${t(style.cardTagline)}"`, 500, 400)
-    ctx.strokeStyle = accent
-    ctx.lineWidth = 2
+    ctx.strokeStyle = accent; ctx.lineWidth = 2
     ctx.beginPath(); ctx.moveTo(200, 440); ctx.lineTo(800, 440); ctx.stroke()
 
     const boxY = 470
@@ -127,37 +109,30 @@ export default function CardGenerator({ style, onClose }: Props) {
     ]
     boxes.forEach((box, i) => {
       const bx = 60 + i * 296
-      ctx.fillStyle = isDark ? '#111111' : '#EEEBE4'
-      roundRect(ctx, bx, boxY, 268, 130, 12); ctx.fill()
+      ctx.fillStyle = isDark ? '#111111' : '#EEEBE4'; roundRect(ctx, bx, boxY, 268, 130, 12); ctx.fill()
       ctx.strokeStyle = isDark ? '#1E1E1E' : '#CCCCCC'; ctx.lineWidth = 1; ctx.stroke()
       ctx.fillStyle = textMuted; ctx.font = 'bold 18px sans-serif'; ctx.textAlign = 'center'
       ctx.fillText(box.label, bx + 134, boxY + 32)
-      ctx.fillStyle = accent; ctx.font = 'bold 36px sans-serif'
-      ctx.fillText(box.value, bx + 134, boxY + 80)
-      ctx.fillStyle = textMuted; ctx.font = '20px sans-serif'
-      ctx.fillText(box.sub, bx + 134, boxY + 112)
+      ctx.fillStyle = accent; ctx.font = 'bold 36px sans-serif'; ctx.fillText(box.value, bx + 134, boxY + 80)
+      ctx.fillStyle = textMuted; ctx.font = '20px sans-serif'; ctx.fillText(box.sub, bx + 134, boxY + 112)
     })
 
     ctx.fillStyle = textPrimary; ctx.font = '34px sans-serif'; ctx.textAlign = 'center'
     wrapText(ctx, t(style.description), 500, 700, 820, 48)
 
-    const tags = style.tags.slice(0, 4)
-    const tagY = 900
+    const tags = style.tags.slice(0, 4); const tagY = 900
     let tagX = 500 - (tags.length * 130) / 2
     tags.forEach(tag => {
-      ctx.fillStyle = isDark ? '#1A1A1A' : '#E8E4DC'
-      roundRect(ctx, tagX, tagY, 120, 44, 22); ctx.fill()
+      ctx.fillStyle = isDark ? '#1A1A1A' : '#E8E4DC'; roundRect(ctx, tagX, tagY, 120, 44, 22); ctx.fill()
       ctx.strokeStyle = accent; ctx.lineWidth = 1.5; ctx.stroke()
       ctx.fillStyle = accent; ctx.font = 'bold 20px sans-serif'; ctx.textAlign = 'center'
-      ctx.fillText(`#${tag}`, tagX + 60, tagY + 28)
-      tagX += 136
+      ctx.fillText(`#${tag}`, tagX + 60, tagY + 28); tagX += 136
     })
 
     ctx.fillStyle = textMuted; ctx.font = 'bold 22px sans-serif'; ctx.textAlign = 'left'
     ctx.fillText(lang === 'en' ? 'BEST FOR:' : 'IDEAL PARA:', 60, 990)
     bestForList.slice(0, 3).forEach((item: string, i: number) => {
-      ctx.fillStyle = textPrimary; ctx.font = '28px sans-serif'
-      ctx.fillText(`→  ${item}`, 80, 1030 + i * 44)
+      ctx.fillStyle = textPrimary; ctx.font = '28px sans-serif'; ctx.fillText(`→  ${item}`, 80, 1030 + i * 44)
     })
 
     ctx.strokeStyle = isDark ? '#1E1E1E' : '#DDDDDD'; ctx.lineWidth = 1
@@ -174,16 +149,29 @@ export default function CardGenerator({ style, onClose }: Props) {
     ctx.font = '26px sans-serif'; ctx.fillStyle = 'rgba(255,255,255,0.8)'
     ctx.fillText('West Palm Beach · tattooguide.ink', 500, 1412)
     ctx.fillStyle = accent; ctx.fillRect(0, 1490, 1000, 10)
+
+    return canvas.toDataURL('image/png')
   }
 
+  // Mobile-friendly download: opens image in new tab on iOS, downloads on desktop
   const download = async () => {
     setDownloading(true)
-    await drawCard()
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const url = canvas.toDataURL('image/png')
-    const a = document.createElement('a')
-    a.href = url; a.download = `${style.slug}-tattoo-pin.png`; a.click()
+    const dataUrl = await drawCard()
+    if (!dataUrl) { setDownloading(false); return }
+
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+    if (isMobile) {
+      // On mobile: show image inline so user can long-press to save
+      setDownloadUrl(dataUrl)
+    } else {
+      // On desktop: trigger download normally
+      const a = document.createElement('a')
+      a.href = dataUrl
+      a.download = `${style.slug}-tattoo-pin.png`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+    }
     setDownloading(false)
   }
 
@@ -194,18 +182,16 @@ export default function CardGenerator({ style, onClose }: Props) {
           <h3 className="font-heading text-xl text-ink-white">
             {t({ en: 'Generate Pinterest Card', es: 'Generar Card de Pinterest' })}
           </h3>
-          <button onClick={onClose} className="text-ink-gray hover:text-ink-white text-2xl leading-none">×</button>
+          <button onClick={onClose} className="text-ink-gray hover:text-ink-white text-2xl leading-none">x</button>
         </div>
-
         <div className="flex gap-2 mb-5">
           {(['dark', 'light', 'gradient'] as const).map(th => (
-            <button key={th} onClick={() => setTheme(th)}
+            <button key={th} onClick={() => { setTheme(th); setDownloadUrl(null) }}
               className={`flex-1 py-2 rounded border text-xs transition-colors capitalize ${theme === th ? 'border-ink-red text-ink-red' : 'border-ink-border text-ink-gray hover:border-ink-muted'}`}>
               {th === 'dark' ? t({ en: 'Dark', es: 'Oscuro' }) : th === 'light' ? t({ en: 'Light', es: 'Claro' }) : t({ en: 'Gradient', es: 'Gradiente' })}
             </button>
           ))}
         </div>
-
         <div className={`rounded-lg p-5 mb-5 ${theme === 'light' ? 'bg-[#F5F0E8]' : theme === 'gradient' ? 'bg-gradient-to-b from-[#0D0D0D] to-[#1A0505]' : 'bg-ink-black'} border border-ink-border`}>
           <div className="h-1 bg-ink-red rounded mb-3" />
           <div className="flex justify-between items-center mb-1">
@@ -213,20 +199,20 @@ export default function CardGenerator({ style, onClose }: Props) {
             <span className="text-xs text-ink-red font-bold">@ar.inks</span>
           </div>
           <p className="text-center text-ink-red text-xs font-bold tracking-widest mb-1">
-            {lang === 'en' ? 'TATTOO STYLE GUIDE' : 'GUÍA DE ESTILOS'}
+            {lang === 'en' ? 'TATTOO STYLE GUIDE' : 'GUIA DE ESTILOS'}
           </p>
           <p className={`font-heading text-3xl text-center mb-1 ${theme === 'light' ? 'text-gray-900' : 'text-ink-white'}`}>
             {t(style.name).toUpperCase()}
           </p>
           <p className={`text-center italic text-sm mb-3 ${theme === 'light' ? 'text-gray-500' : 'text-ink-gray'}`}>
-            "{t(style.cardTagline)}"
+            {t(style.cardTagline)}
           </p>
           <div className="flex flex-wrap justify-center gap-1.5 mb-3">
             {style.tags.slice(0, 4).map(tag => (
               <span key={tag} className="text-xs text-ink-red border border-ink-red rounded-full px-2 py-0.5">#{tag}</span>
             ))}
           </div>
-          <div className={`text-xs mb-3 ${theme === 'light' ? 'text-gray-600' : 'text-ink-gray'}`}>
+          <div className={`text-xs mb-2 ${theme === 'light' ? 'text-gray-600' : 'text-ink-gray'}`}>
             <span className="font-bold">{lang === 'en' ? 'BEST FOR: ' : 'IDEAL PARA: '}</span>
             {bestForList.slice(0, 2).join(' · ')}
           </div>
@@ -236,15 +222,14 @@ export default function CardGenerator({ style, onClose }: Props) {
           </div>
           <div className="mt-3 bg-ink-red rounded text-center py-2">
             <p className="text-white text-xs font-bold">
-              {lang === 'en' ? 'FREE CONSULTATION → DM @ar.inks' : 'CONSULTA GRATIS → DM @ar.inks'}
+              {lang === 'en' ? 'FREE CONSULTATION - DM @ar.inks' : 'CONSULTA GRATIS - DM @ar.inks'}
             </p>
           </div>
           <div className="h-1 bg-ink-red rounded mt-3" />
         </div>
-
         <div className="bg-ink-black rounded-lg p-3 mb-5 border border-ink-border">
           <p className="text-xs text-ink-gray font-bold uppercase tracking-wider mb-2">
-            {t({ en: 'Pinterest SEO keywords — 2026', es: 'Keywords SEO Pinterest — 2026' })}
+            {t({ en: 'Pinterest SEO keywords 2026', es: 'Keywords SEO Pinterest 2026' })}
           </p>
           <div className="flex flex-wrap gap-1.5">
             {kws.map(kw => (
@@ -252,17 +237,23 @@ export default function CardGenerator({ style, onClose }: Props) {
             ))}
           </div>
         </div>
-
         <canvas ref={canvasRef} className="hidden" />
-
+        {downloadUrl && (
+          <div className="mb-4 rounded-lg overflow-hidden border border-ink-border">
+            <p className="text-xs text-ink-gray text-center py-2 bg-ink-black">
+              {t({ en: 'Long press image to save to camera roll', es: 'Manten presionada la imagen para guardar' })}
+            </p>
+            <img src={downloadUrl} alt="Pinterest card" className="w-full" />
+          </div>
+        )}
         <button onClick={download} disabled={downloading}
           className="w-full bg-ink-red text-white py-3 rounded font-medium hover:bg-ink-red-dark transition-colors disabled:opacity-50 text-sm">
           {downloading
             ? t({ en: 'Generating...', es: 'Generando...' })
-            : t({ en: '↓ Download PNG (1000×1500) — Pinterest Ready', es: '↓ Descargar PNG (1000×1500) — Listo para Pinterest' })}
+            : t({ en: 'Download PNG 1000x1500 - Pinterest Ready', es: 'Descargar PNG 1000x1500 - Listo para Pinterest' })}
         </button>
-        <p className="text-xs text-ink-gray text-center mt-3">
-          {t({ en: 'Portrait ratio · SEO keywords · CTA — optimized for Pinterest 2026', es: 'Proporción retrato · Keywords SEO · CTA — optimizado para Pinterest 2026' })}
+        <p className="text-xs text-ink-gray text-center mt-2">
+          {t({ en: 'Portrait ratio · SEO keywords · optimized for Pinterest 2026', es: 'Proporcion retrato · Keywords SEO · optimizado para Pinterest 2026' })}
         </p>
       </div>
     </div>
@@ -289,7 +280,9 @@ function wrapText(ctx: CanvasRenderingContext2D, text: string, x: number, y: num
   for (const word of words) {
     const test = line + word + ' '
     if (ctx.measureText(test).width > maxWidth && line !== '') {
-      ctx.fillText(line.trim(), x, cy); line = word + ' '; cy += lineHeight
+      ctx.fillText(line.trim(), x, cy)
+      line = word + ' '
+      cy += lineHeight
     } else { line = test }
   }
   ctx.fillText(line.trim(), x, cy)
