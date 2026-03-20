@@ -7,8 +7,6 @@ interface Props {
   onClose: () => void
 }
 
-// Pinterest-optimized keywords — updated March 2026
-// Audience: 22K, 18-34yo, 56% female, US/MX/BR/AR, Body Art affinity 2.28x
 const PINTEREST_KEYWORDS: Record<string, { en: string[]; es: string[] }> = {
   blackwork: {
     en: ['blackwork tattoo ideas 2026', 'bold tattoo aesthetic', 'dark tattoo inspo', 'blackwork tattoo women', 'body art trending'],
@@ -58,6 +56,7 @@ export default function CardGenerator({ style, onClose }: Props) {
 
   const keywords = PINTEREST_KEYWORDS[style.slug] ?? PINTEREST_KEYWORDS['minimalist']
   const kws = lang === 'es' ? keywords.es : keywords.en
+  const bestForList = style.bestFor[lang]
 
   const drawCard = async () => {
     const canvas = canvasRef.current
@@ -94,7 +93,6 @@ export default function CardGenerator({ style, onClose }: Props) {
 
     ctx.fillStyle = accent
     ctx.fillRect(0, 0, 1000, 10)
-
     ctx.fillStyle = textMuted
     ctx.font = '28px sans-serif'
     ctx.textAlign = 'left'
@@ -103,25 +101,20 @@ export default function CardGenerator({ style, onClose }: Props) {
     ctx.font = 'bold 28px sans-serif'
     ctx.textAlign = 'right'
     ctx.fillText('@ar.inks', 940, 70)
-
     ctx.strokeStyle = isDark ? '#1E1E1E' : '#DDDDDD'
     ctx.lineWidth = 1
     ctx.beginPath(); ctx.moveTo(60, 90); ctx.lineTo(940, 90); ctx.stroke()
-
     ctx.fillStyle = accent
     ctx.font = 'bold 22px sans-serif'
     ctx.textAlign = 'center'
     ctx.fillText(lang === 'en' ? 'TATTOO STYLE GUIDE' : 'GUÍA DE ESTILOS', 500, 160)
-
     ctx.fillStyle = textPrimary
     ctx.font = 'bold 108px serif'
     ctx.textAlign = 'center'
     ctx.fillText(t(style.name).toUpperCase(), 500, 310)
-
     ctx.font = 'italic 46px serif'
     ctx.fillStyle = isDark ? '#D4C8B8' : '#444444'
     ctx.fillText(`"${t(style.cardTagline)}"`, 500, 400)
-
     ctx.strokeStyle = accent
     ctx.lineWidth = 2
     ctx.beginPath(); ctx.moveTo(200, 440); ctx.lineTo(800, 440); ctx.stroke()
@@ -135,26 +128,17 @@ export default function CardGenerator({ style, onClose }: Props) {
     boxes.forEach((box, i) => {
       const bx = 60 + i * 296
       ctx.fillStyle = isDark ? '#111111' : '#EEEBE4'
-      roundRect(ctx, bx, boxY, 268, 130, 12)
-      ctx.fill()
-      ctx.strokeStyle = isDark ? '#1E1E1E' : '#CCCCCC'
-      ctx.lineWidth = 1
-      ctx.stroke()
-      ctx.fillStyle = textMuted
-      ctx.font = 'bold 18px sans-serif'
-      ctx.textAlign = 'center'
+      roundRect(ctx, bx, boxY, 268, 130, 12); ctx.fill()
+      ctx.strokeStyle = isDark ? '#1E1E1E' : '#CCCCCC'; ctx.lineWidth = 1; ctx.stroke()
+      ctx.fillStyle = textMuted; ctx.font = 'bold 18px sans-serif'; ctx.textAlign = 'center'
       ctx.fillText(box.label, bx + 134, boxY + 32)
-      ctx.fillStyle = accent
-      ctx.font = 'bold 36px sans-serif'
+      ctx.fillStyle = accent; ctx.font = 'bold 36px sans-serif'
       ctx.fillText(box.value, bx + 134, boxY + 80)
-      ctx.fillStyle = textMuted
-      ctx.font = '20px sans-serif'
+      ctx.fillStyle = textMuted; ctx.font = '20px sans-serif'
       ctx.fillText(box.sub, bx + 134, boxY + 112)
     })
 
-    ctx.fillStyle = textPrimary
-    ctx.font = '34px sans-serif'
-    ctx.textAlign = 'center'
+    ctx.fillStyle = textPrimary; ctx.font = '34px sans-serif'; ctx.textAlign = 'center'
     wrapText(ctx, t(style.description), 500, 700, 820, 48)
 
     const tags = style.tags.slice(0, 4)
@@ -162,54 +146,34 @@ export default function CardGenerator({ style, onClose }: Props) {
     let tagX = 500 - (tags.length * 130) / 2
     tags.forEach(tag => {
       ctx.fillStyle = isDark ? '#1A1A1A' : '#E8E4DC'
-      roundRect(ctx, tagX, tagY, 120, 44, 22)
-      ctx.fill()
-      ctx.strokeStyle = accent
-      ctx.lineWidth = 1.5
-      ctx.stroke()
-      ctx.fillStyle = accent
-      ctx.font = 'bold 20px sans-serif'
-      ctx.textAlign = 'center'
+      roundRect(ctx, tagX, tagY, 120, 44, 22); ctx.fill()
+      ctx.strokeStyle = accent; ctx.lineWidth = 1.5; ctx.stroke()
+      ctx.fillStyle = accent; ctx.font = 'bold 20px sans-serif'; ctx.textAlign = 'center'
       ctx.fillText(`#${tag}`, tagX + 60, tagY + 28)
       tagX += 136
     })
 
-    ctx.fillStyle = textMuted
-    ctx.font = 'bold 22px sans-serif'
-    ctx.textAlign = 'left'
+    ctx.fillStyle = textMuted; ctx.font = 'bold 22px sans-serif'; ctx.textAlign = 'left'
     ctx.fillText(lang === 'en' ? 'BEST FOR:' : 'IDEAL PARA:', 60, 990)
-    t(style.bestFor).slice(0, 3).forEach((item: string, i: number) => {
-      ctx.fillStyle = textPrimary
-      ctx.font = '28px sans-serif'
+    bestForList.slice(0, 3).forEach((item: string, i: number) => {
+      ctx.fillStyle = textPrimary; ctx.font = '28px sans-serif'
       ctx.fillText(`→  ${item}`, 80, 1030 + i * 44)
     })
 
-    ctx.strokeStyle = isDark ? '#1E1E1E' : '#DDDDDD'
-    ctx.lineWidth = 1
+    ctx.strokeStyle = isDark ? '#1E1E1E' : '#DDDDDD'; ctx.lineWidth = 1
     ctx.beginPath(); ctx.moveTo(60, 1170); ctx.lineTo(940, 1170); ctx.stroke()
-
-    ctx.fillStyle = textMuted
-    ctx.font = 'bold 20px sans-serif'
-    ctx.textAlign = 'left'
+    ctx.fillStyle = textMuted; ctx.font = 'bold 20px sans-serif'; ctx.textAlign = 'left'
     ctx.fillText(lang === 'en' ? 'SEARCH TERMS:' : 'BUSCA:', 60, 1210)
-    ctx.fillStyle = isDark ? '#555' : '#888'
-    ctx.font = '22px sans-serif'
+    ctx.fillStyle = isDark ? '#555' : '#888'; ctx.font = '22px sans-serif'
     ctx.fillText(kws.slice(0, 3).join('  ·  '), 60, 1248)
     if (kws[3]) ctx.fillText(kws.slice(3).join('  ·  '), 60, 1278)
 
-    ctx.fillStyle = accent
-    roundRect(ctx, 60, 1320, 880, 120, 16)
-    ctx.fill()
-    ctx.fillStyle = '#FFFFFF'
-    ctx.font = 'bold 36px sans-serif'
-    ctx.textAlign = 'center'
+    ctx.fillStyle = accent; roundRect(ctx, 60, 1320, 880, 120, 16); ctx.fill()
+    ctx.fillStyle = '#FFFFFF'; ctx.font = 'bold 36px sans-serif'; ctx.textAlign = 'center'
     ctx.fillText(lang === 'en' ? 'FREE CONSULTATION → DM @ar.inks' : 'CONSULTA GRATIS → DM @ar.inks', 500, 1368)
-    ctx.font = '26px sans-serif'
-    ctx.fillStyle = 'rgba(255,255,255,0.8)'
+    ctx.font = '26px sans-serif'; ctx.fillStyle = 'rgba(255,255,255,0.8)'
     ctx.fillText('West Palm Beach · tattooguide.ink', 500, 1412)
-
-    ctx.fillStyle = accent
-    ctx.fillRect(0, 1490, 1000, 10)
+    ctx.fillStyle = accent; ctx.fillRect(0, 1490, 1000, 10)
   }
 
   const download = async () => {
@@ -219,9 +183,7 @@ export default function CardGenerator({ style, onClose }: Props) {
     if (!canvas) return
     const url = canvas.toDataURL('image/png')
     const a = document.createElement('a')
-    a.href = url
-    a.download = `${style.slug}-tattoo-pin.png`
-    a.click()
+    a.href = url; a.download = `${style.slug}-tattoo-pin.png`; a.click()
     setDownloading(false)
   }
 
@@ -266,7 +228,7 @@ export default function CardGenerator({ style, onClose }: Props) {
           </div>
           <div className={`text-xs mb-3 ${theme === 'light' ? 'text-gray-600' : 'text-ink-gray'}`}>
             <span className="font-bold">{lang === 'en' ? 'BEST FOR: ' : 'IDEAL PARA: '}</span>
-            {t(style.bestFor).slice(0, 2).join(' · ')}
+            {bestForList.slice(0, 2).join(' · ')}
           </div>
           <div className={`text-xs border-t pt-2 mt-2 ${theme === 'light' ? 'border-gray-200 text-gray-400' : 'border-ink-border text-ink-gray'}`}>
             <span className="font-bold">{lang === 'en' ? 'SEARCH: ' : 'BUSCA: '}</span>
@@ -327,9 +289,7 @@ function wrapText(ctx: CanvasRenderingContext2D, text: string, x: number, y: num
   for (const word of words) {
     const test = line + word + ' '
     if (ctx.measureText(test).width > maxWidth && line !== '') {
-      ctx.fillText(line.trim(), x, cy)
-      line = word + ' '
-      cy += lineHeight
+      ctx.fillText(line.trim(), x, cy); line = word + ' '; cy += lineHeight
     } else { line = test }
   }
   ctx.fillText(line.trim(), x, cy)

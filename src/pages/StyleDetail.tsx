@@ -13,7 +13,7 @@ const PAIN_DOTS = (level: number) =>
 
 export default function StyleDetail() {
   const { slug } = useParams<{ slug: string }>()
-  const { t } = useLanguage()
+  const { t, lang } = useLanguage()
   const [showCard, setShowCard] = useState(false)
 
   const style = styles.find(s => s.slug === slug)
@@ -26,6 +26,7 @@ export default function StyleDetail() {
 
   const relatedPlacements = placements.filter(p => style.bestPlacements.includes(p.slug))
   const relatedStyles = styles.filter(s => s.slug !== slug).slice(0, 3)
+  const bestForList = style.bestFor[lang]
 
   return (
     <>
@@ -37,7 +38,6 @@ export default function StyleDetail() {
       </Helmet>
 
       <div className="max-w-4xl mx-auto px-4 py-10">
-        {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-xs text-ink-gray mb-8">
           <Link to="/styles" className="hover:text-ink-white transition-colors">
             {t({ en: 'Styles', es: 'Estilos' })}
@@ -46,7 +46,6 @@ export default function StyleDetail() {
           <span className="text-ink-white">{t(style.name)}</span>
         </div>
 
-        {/* Header */}
         <div className="mb-10">
           <div className="flex flex-wrap gap-2 mb-4">
             {style.tags.map(tag => (
@@ -55,13 +54,10 @@ export default function StyleDetail() {
               </span>
             ))}
           </div>
-          <h1 className="font-heading text-5xl md:text-6xl text-ink-white mb-3">
-            {t(style.name)}
-          </h1>
+          <h1 className="font-heading text-5xl md:text-6xl text-ink-white mb-3">{t(style.name)}</h1>
           <p className="text-xl text-ink-gray italic font-heading">{t(style.cardTagline)}</p>
         </div>
 
-        {/* Two-col layout */}
         <div className="grid md:grid-cols-3 gap-10 mb-12">
           <div className="md:col-span-2 space-y-6">
             <section>
@@ -76,7 +72,7 @@ export default function StyleDetail() {
                 {t({ en: 'Best for', es: 'Ideal para' })}
               </h2>
               <ul className="space-y-1.5">
-                {t(style.bestFor).map((item: string) => (
+                {bestForList.map((item: string) => (
                   <li key={item} className="flex items-start gap-2 text-sm text-ink-white">
                     <span className="text-ink-red mt-0.5">→</span>
                     {item}
@@ -93,38 +89,29 @@ export default function StyleDetail() {
             </section>
           </div>
 
-          {/* Sidebar */}
           <div className="space-y-4">
-            {/* Pain level card */}
             <div className="bg-ink-card border border-ink-border rounded-lg p-5">
               <p className="text-xs text-ink-gray uppercase tracking-widest mb-3">
                 {t({ en: 'Pain level', es: 'Nivel de dolor' })}
               </p>
-              <div className="flex items-center gap-1 mb-1">
-                {PAIN_DOTS(style.painLevel)}
-              </div>
+              <div className="flex items-center gap-1 mb-1">{PAIN_DOTS(style.painLevel)}</div>
               <p className="text-xs text-ink-gray">{style.painLevel}/5</p>
             </div>
 
-            {/* Best placements */}
             <div className="bg-ink-card border border-ink-border rounded-lg p-5">
               <p className="text-xs text-ink-gray uppercase tracking-widest mb-3">
                 {t({ en: 'Best placements', es: 'Mejores zonas' })}
               </p>
               <div className="flex flex-wrap gap-1.5">
                 {relatedPlacements.map(p => (
-                  <Link
-                    key={p.slug}
-                    to="/placement"
-                    className="text-xs bg-ink-muted text-ink-white px-2 py-1 rounded hover:bg-ink-red transition-colors"
-                  >
+                  <Link key={p.slug} to="/placement"
+                    className="text-xs bg-ink-muted text-ink-white px-2 py-1 rounded hover:bg-ink-red transition-colors">
                     {t(p.name)}
                   </Link>
                 ))}
               </div>
             </div>
 
-            {/* CTA */}
             <div className="bg-ink-red rounded-lg p-5 text-center">
               <p className="text-white font-medium mb-1 text-sm">
                 {t({ en: 'Love this style?', es: '¿Te encanta este estilo?' })}
@@ -132,19 +119,14 @@ export default function StyleDetail() {
               <p className="text-red-200 text-xs mb-4">
                 {t({ en: 'Book a free consultation', es: 'Reserva una consulta gratis' })}
               </p>
-              <a
-                href="https://instagram.com/ar.inks"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block bg-white text-ink-red text-sm font-semibold py-2 rounded hover:bg-ink-white transition-colors"
-              >
+              <a href="https://instagram.com/ar.inks" target="_blank" rel="noopener noreferrer"
+                className="block bg-white text-ink-red text-sm font-semibold py-2 rounded hover:bg-ink-white transition-colors">
                 DM @ar.inks →
               </a>
             </div>
           </div>
         </div>
 
-        {/* Card generator CTA */}
         <div className="border border-ink-border rounded-lg p-6 flex flex-col sm:flex-row items-center justify-between gap-4 mb-12">
           <div>
             <p className="font-heading text-lg text-ink-white mb-1">
@@ -154,15 +136,12 @@ export default function StyleDetail() {
               {t({ en: 'Download a 1000×1500px pin-ready image for this style.', es: 'Descarga una imagen lista para Pinterest de 1000×1500px.' })}
             </p>
           </div>
-          <button
-            onClick={() => setShowCard(true)}
-            className="shrink-0 bg-ink-red text-white px-5 py-2.5 rounded font-medium hover:bg-ink-red-dark transition-colors"
-          >
+          <button onClick={() => setShowCard(true)}
+            className="shrink-0 bg-ink-red text-white px-5 py-2.5 rounded font-medium hover:bg-ink-red-dark transition-colors">
             {t({ en: 'Generate card →', es: 'Generar card →' })}
           </button>
         </div>
 
-        {/* Related styles */}
         <div>
           <h2 className="font-heading text-2xl text-ink-white mb-6">
             {t({ en: 'Explore more styles', es: 'Explora más estilos' })}
