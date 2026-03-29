@@ -11,6 +11,13 @@ export default function Placement() {
       <Helmet>
         <title>{t({ en: 'Tattoo Placement Guide', es: 'Guía de Colocación de Tatuajes' })} — TattooGuide.ink</title>
         <meta name="description" content={t({ en: 'Find the best spot for your tattoo. Pain levels, healing info, and style recommendations for every body zone.', es: 'Encuentra el mejor lugar para tu tatuaje. Niveles de dolor, información de cicatrización y recomendaciones de estilo para cada zona.' })} />
+        <link rel="canonical" href="https://tattooguide.ink/placement" />
+        <meta property="og:title" content="Tattoo Placement Guide — TattooGuide.ink" />
+        <meta property="og:description" content="Find the best spot for your tattoo. Pain levels, healing info, and style recommendations for every body zone." />
+        <meta property="og:image" content="https://tattooguide.ink/opengraph.jpg" />
+        <meta property="og:url" content="https://tattooguide.ink/placement" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
 
       <div className="max-w-6xl mx-auto px-4 py-12">

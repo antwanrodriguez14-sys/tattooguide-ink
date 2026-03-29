@@ -14,7 +14,14 @@ export default function Styles() {
     <>
       <Helmet>
         <title>Tattoo Styles — TattooGuide.ink</title>
-        <meta name="description" content="Explore 8 tattoo styles from blackwork to fine line. Find your perfect aesthetic." />
+        <meta name="description" content="Explore 10 tattoo styles from blackwork to fine line. Find your perfect aesthetic." />
+        <link rel="canonical" href="https://tattooguide.ink/styles" />
+        <meta property="og:title" content="Tattoo Styles — TattooGuide.ink" />
+        <meta property="og:description" content="Explore 10 tattoo styles from blackwork to fine line. Find your perfect aesthetic." />
+        <meta property="og:image" content="https://tattooguide.ink/opengraph.jpg" />
+        <meta property="og:url" content="https://tattooguide.ink/styles" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
 
       <div className="max-w-6xl mx-auto px-4 py-12">

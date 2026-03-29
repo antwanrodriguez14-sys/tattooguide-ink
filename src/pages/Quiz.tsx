@@ -36,6 +36,14 @@ export default function Quiz() {
     <>
       <Helmet>
         <title>{t({ en: 'What\'s My Tattoo Style?', es: '¿Cuál es mi Estilo de Tatuaje?' })} — TattooGuide.ink</title>
+        <meta name="description" content="Answer 5 quick questions and discover which tattoo style matches your personality." />
+        <link rel="canonical" href="https://tattooguide.ink/quiz" />
+        <meta property="og:title" content="What's My Tattoo Style? — TattooGuide.ink" />
+        <meta property="og:description" content="Answer 5 quick questions and discover which tattoo style matches your personality." />
+        <meta property="og:image" content="https://tattooguide.ink/opengraph.jpg" />
+        <meta property="og:url" content="https://tattooguide.ink/quiz" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
 
       <div className="max-w-2xl mx-auto px-4 py-16">

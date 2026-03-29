@@ -13,6 +13,13 @@ export default function Home() {
       <Helmet>
         <title>TattooGuide.ink — Find Your Tattoo Style</title>
         <meta name="description" content="Discover the perfect tattoo style for you. Explore styles, placement guides, and get a free consultation with @ar.inks." />
+        <link rel="canonical" href="https://tattooguide.ink/" />
+        <meta property="og:title" content="TattooGuide.ink — Find Your Tattoo Style" />
+        <meta property="og:description" content="Discover the perfect tattoo style for you. Explore styles, placement guides, and get a free consultation with @ar.inks." />
+        <meta property="og:image" content="https://tattooguide.ink/opengraph.jpg" />
+        <meta property="og:url" content="https://tattooguide.ink/" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
 
       {/* Hero */}

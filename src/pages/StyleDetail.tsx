@@ -33,8 +33,13 @@ export default function StyleDetail() {
       <Helmet>
         <title>{t(style.name)} Tattoos — TattooGuide.ink</title>
         <meta name="description" content={t(style.description).slice(0, 155)} />
-        <meta property="og:title" content={`${t(style.name)} Tattoo Style`} />
-        <meta property="og:description" content={t(style.cardTagline)} />
+        <link rel="canonical" href={`https://tattooguide.ink/styles/${style.slug}`} />
+        <meta property="og:title" content={`${t(style.name)} Tattoo Style — TattooGuide.ink`} />
+        <meta property="og:description" content={`${t(style.cardTagline)} — ${t(style.description).slice(0, 100)}`} />
+        <meta property="og:image" content={style.image || 'https://tattooguide.ink/opengraph.jpg'} />
+        <meta property="og:url" content={`https://tattooguide.ink/styles/${style.slug}`} />
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
 
       <div className="max-w-4xl mx-auto px-4 py-10">
@@ -45,6 +50,19 @@ export default function StyleDetail() {
           <span>/</span>
           <span className="text-ink-white">{t(style.name)}</span>
         </div>
+
+        {/* Hero image — shown when a real photo is available */}
+        {style.image && (
+          <div className="relative overflow-hidden rounded-xl mb-10 h-64 md:h-96">
+            <img
+              src={style.image}
+              alt={`${t(style.name)} tattoo by @ar.inks`}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-ink-bg/80 via-transparent to-transparent" />
+            <p className="absolute bottom-4 left-4 text-xs text-white/70">📸 @ar.inks</p>
+          </div>
+        )}
 
         <div className="mb-10">
           <div className="flex flex-wrap gap-2 mb-4">
