@@ -38,7 +38,7 @@ export const styles: TattooStyle[] = [
     cardTagline: { en: 'Bold. Dark. Timeless.', es: 'Audaz. Oscuro. Atemporal.' },
     color: '#1a1a1a',
     // Woman with bold blackwork sleeve — Joshua Rawson-Harris on Unsplash
-    image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&q=80&fit=crop',
+    image: '/styles/blackwork.jpg',
   },
   {
     slug: 'fine-line',
@@ -62,7 +62,7 @@ export const styles: TattooStyle[] = [
     cardTagline: { en: 'Less ink, more soul.', es: 'Menos tinta, más alma.' },
     color: '#2a2a2a',
     // Woman with fine line tattoo on arm
-    image: 'https://images.unsplash.com/photo-1542931287-023b922fa89b?w=800&q=80&fit=crop',
+    image: '/styles/fine-line.jpg',
   },
   {
     slug: 'neo-traditional',
@@ -125,7 +125,7 @@ export const styles: TattooStyle[] = [
     cardTagline: { en: 'Reality, reimagined.', es: 'La realidad, reinventada.' },
     color: '#0d1117',
     // Tattooed woman portrait
-    image: 'https://images.unsplash.com/photo-1588516903720-8ceb67f96d2c?w=800&q=80&fit=crop',
+    image: '/styles/realism.jpg',
   },
   {
     slug: 'geometric',
@@ -167,7 +167,7 @@ export const styles: TattooStyle[] = [
     cardTagline: { en: 'Wear your art.', es: 'Viste tu arte.' },
     color: '#1a0a2a',
     // Woman with colorful tattoo
-    image: 'https://images.unsplash.com/photo-1583461923174-b85a1bc54e01?w=800&q=80&fit=crop',
+    image: '/styles/watercolor.jpg',
   },
   {
     slug: 'dotwork',
@@ -209,7 +209,7 @@ export const styles: TattooStyle[] = [
     cardTagline: { en: 'Simple. Intentional. Yours.', es: 'Simple. Intencional. Tuyo.' },
     color: '#1a1a1a',
     // Woman with small minimalist tattoo on wrist
-    image: 'https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?w=800&q=80&fit=crop',
+    image: '/styles/minimalist.jpg',
   },
 ]
 
