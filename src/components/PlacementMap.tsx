@@ -3,342 +3,323 @@ import { useLanguage } from '../hooks/useLanguage'
 import type { Placement } from '../data/placements'
 import { styles } from '../data/styles'
 
-interface Props {
-  placements: Placement[]
-}
+interface Props { placements: Placement[] }
 
-const PAIN_COLORS: Record<number, string> = {
-  1: '#2DD4BF', 2: '#2DD4BF', 3: '#FACC15', 4: '#F97316', 5: '#EF4444',
-}
-const PAIN_GLOW: Record<number, string> = {
-  1: 'rgba(45,212,191,0.55)', 2: 'rgba(45,212,191,0.55)',
-  3: 'rgba(250,204,21,0.6)', 4: 'rgba(249,115,22,0.65)', 5: 'rgba(239,68,68,0.7)',
-}
-const PAIN_PULSE_SPEED: Record<number, string> = {
-  1: '3.5s', 2: '3.5s', 3: '2.8s', 4: '2.2s', 5: '1.6s',
-}
+const PC: Record<number, string> = { 1:'#2DD4BF',2:'#2DD4BF',3:'#FACC15',4:'#F97316',5:'#EF4444' }
+const PG: Record<number, string> = { 1:'rgba(45,212,191,.5)',2:'rgba(45,212,191,.5)',3:'rgba(250,204,21,.55)',4:'rgba(249,115,22,.6)',5:'rgba(239,68,68,.65)' }
+const SPEED: Record<number, string> = { 1:'3.8s',2:'3.8s',3:'2.8s',4:'2.1s',5:'1.5s' }
 
-// Zone definitions with SVG paths and which placement slug they map to
-const ZONES = [
-  { slug: 'shoulder', id: 'shoulder-L', path: 'M 108 122 Q 92 114 80 124 Q 67 135 69 153 Q 71 168 82 174 L 97 164 Q 103 148 108 136 Z' },
-  { slug: 'shoulder', id: 'shoulder-R', path: 'M 172 122 Q 188 114 200 124 Q 213 135 211 153 Q 209 168 198 174 L 183 164 Q 177 148 172 136 Z' },
-  { slug: 'chest',    id: 'chest',      path: 'M 110 122 L 108 138 Q 111 158 140 163 Q 169 158 172 138 L 170 122 Q 154 115 140 113 Q 126 115 110 122 Z' },
-  { slug: 'ribcage',  id: 'ribcage',    path: 'M 108 163 Q 110 183 112 204 Q 117 224 140 229 Q 163 224 168 204 Q 170 183 172 163 Q 156 171 140 173 Q 124 171 108 163 Z' },
-  { slug: 'forearm',  id: 'upperarm-L', path: 'M 82 174 L 66 180 Q 55 196 58 218 L 74 222 Q 81 206 87 190 Z' },
-  { slug: 'forearm',  id: 'forearm-L',  path: 'M 58 218 L 45 250 Q 41 268 47 278 L 63 274 Q 66 255 70 236 L 74 222 Z' },
-  { slug: 'forearm',  id: 'upperarm-R', path: 'M 198 174 L 214 180 Q 225 196 222 218 L 206 222 Q 199 206 193 190 Z' },
-  { slug: 'forearm',  id: 'forearm-R',  path: 'M 222 218 L 235 250 Q 239 268 233 278 L 217 274 Q 214 255 210 236 L 206 222 Z' },
-  { slug: 'inner-arm',id: 'innerarm-L', path: 'M 87 174 L 82 174 L 66 180 Q 74 191 81 198 Q 90 191 96 180 Z' },
-  { slug: 'thigh',    id: 'hips',       path: 'M 112 229 Q 110 245 110 260 L 137 263 L 143 263 L 170 260 Q 170 245 168 229 Q 154 236 140 238 Q 126 236 112 229 Z' },
-  { slug: 'thigh',    id: 'thigh-L',    path: 'M 110 262 L 107 316 Q 106 340 110 354 L 131 354 Q 134 337 134 310 L 137 263 Z' },
-  { slug: 'thigh',    id: 'thigh-R',    path: 'M 170 262 L 173 316 Q 174 340 170 354 L 149 354 Q 146 337 146 310 L 143 263 Z' },
-  { slug: 'ankle',    id: 'shin-L',     path: 'M 110 354 Q 108 382 110 402 L 131 402 Q 132 380 131 354 Z' },
-  { slug: 'ankle',    id: 'shin-R',     path: 'M 170 354 Q 172 382 170 402 L 149 402 Q 148 380 149 354 Z' },
-  { slug: 'ankle',    id: 'ankle-L',    path: 'M 110 402 L 106 436 Q 106 448 115 452 L 131 452 Q 137 448 135 436 L 131 402 Z' },
-  { slug: 'ankle',    id: 'ankle-R',    path: 'M 170 402 L 174 436 Q 174 448 165 452 L 149 452 Q 143 448 145 436 L 149 402 Z' },
-  { slug: 'spine',    id: 'spine',      path: 'M 135 100 L 145 100 L 147 274 L 133 274 Z' },
+/* ── FRONT ZONES ─────────────────────────────────────── */
+const FRONT_ZONES = [
+  { slug:'shoulder',   id:'sh-L',  path:'M 108 122 Q 92 114 80 124 Q 67 135 69 153 Q 71 168 82 174 L 97 164 Q 103 148 108 136 Z' },
+  { slug:'shoulder',   id:'sh-R',  path:'M 172 122 Q 188 114 200 124 Q 213 135 211 153 Q 209 168 198 174 L 183 164 Q 177 148 172 136 Z' },
+  { slug:'chest',      id:'ch',    path:'M 110 122 L 108 142 Q 111 162 140 167 Q 169 162 172 142 L 170 122 Q 154 115 140 113 Q 126 115 110 122 Z' },
+  { slug:'ribcage',    id:'rb',    path:'M 108 167 Q 110 188 112 210 Q 117 230 140 234 Q 163 230 168 210 Q 170 188 172 167 Q 156 175 140 177 Q 124 175 108 167 Z' },
+  { slug:'forearm',    id:'ua-L',  path:'M 82 174 L 66 180 Q 55 198 58 220 L 74 224 Q 81 207 87 190 Z' },
+  { slug:'forearm',    id:'fa-L',  path:'M 58 220 L 45 252 Q 41 271 47 281 L 63 277 Q 66 258 70 238 L 74 224 Z' },
+  { slug:'forearm',    id:'ua-R',  path:'M 198 174 L 214 180 Q 225 198 222 220 L 206 224 Q 199 207 193 190 Z' },
+  { slug:'forearm',    id:'fa-R',  path:'M 222 220 L 235 252 Q 239 271 233 281 L 217 277 Q 214 258 210 238 L 206 224 Z' },
+  { slug:'inner-arm',  id:'ia-L',  path:'M 87 174 L 82 174 L 66 180 Q 74 192 81 200 Q 90 192 96 180 Z' },
+  { slug:'thigh',      id:'hp',    path:'M 112 234 Q 110 250 110 265 L 137 268 L 143 268 L 170 265 Q 170 250 168 234 Q 154 241 140 243 Q 126 241 112 234 Z' },
+  { slug:'thigh',      id:'th-L',  path:'M 110 267 L 107 320 Q 106 345 110 359 L 131 359 Q 134 342 134 315 L 137 268 Z' },
+  { slug:'thigh',      id:'th-R',  path:'M 170 267 L 173 320 Q 174 345 170 359 L 149 359 Q 146 342 146 315 L 143 268 Z' },
+  { slug:'ankle',      id:'sh-L2', path:'M 110 359 Q 108 387 110 407 L 131 407 Q 132 385 131 359 Z' },
+  { slug:'ankle',      id:'sh-R2', path:'M 170 359 Q 172 387 170 407 L 149 407 Q 148 385 149 359 Z' },
+  { slug:'ankle',      id:'an-L',  path:'M 110 407 L 106 441 Q 106 454 115 458 L 131 458 Q 137 454 135 441 L 131 407 Z' },
+  { slug:'ankle',      id:'an-R',  path:'M 170 407 L 174 441 Q 174 454 165 458 L 149 458 Q 143 454 145 441 L 149 407 Z' },
+  { slug:'spine',      id:'sp',    path:'M 135 102 L 145 102 L 147 275 L 133 275 Z' },
 ]
 
-// Label anchor per zone (shown on hover / idle dot)
-const ZONE_LABELS: Record<string, { cx: number; cy: number }> = {
-  'shoulder-L': { cx: 78,  cy: 148 },
-  'chest':      { cx: 140, cy: 143 },
-  'ribcage':    { cx: 140, cy: 196 },
-  'forearm-L':  { cx: 52,  cy: 248 },
-  'innerarm-L': { cx: 76,  cy: 183 },
-  'hips':       { cx: 140, cy: 247 },
-  'thigh-L':    { cx: 115, cy: 308 },
-  'ankle-L':    { cx: 116, cy: 426 },
-  'spine':      { cx: 140, cy: 185 },
+/* ── BACK ZONES ──────────────────────────────────────── */
+const BACK_ZONES = [
+  { slug:'shoulder',   id:'bsh-L', path:'M 108 122 Q 92 114 80 124 Q 67 135 69 153 Q 71 168 82 174 L 97 164 Q 103 148 108 136 Z' },
+  { slug:'shoulder',   id:'bsh-R', path:'M 172 122 Q 188 114 200 124 Q 213 135 211 153 Q 209 168 198 174 L 183 164 Q 177 148 172 136 Z' },
+  { slug:'upper-back', id:'ub',    path:'M 110 122 L 108 200 Q 116 210 140 212 Q 164 210 172 200 L 170 122 Q 154 115 140 113 Q 126 115 110 122 Z' },
+  { slug:'lower-back', id:'lb',    path:'M 108 212 L 108 258 Q 115 273 140 276 Q 165 273 172 258 L 172 212 Z' },
+  { slug:'spine',      id:'bsp',   path:'M 135 102 L 145 102 L 147 275 L 133 275 Z' },
+  { slug:'forearm',    id:'bua-L', path:'M 82 174 L 66 180 Q 55 198 58 220 L 74 224 Q 81 207 87 190 Z' },
+  { slug:'forearm',    id:'bfa-L', path:'M 58 220 L 45 252 Q 41 271 47 281 L 63 277 Q 66 258 70 238 L 74 224 Z' },
+  { slug:'forearm',    id:'bua-R', path:'M 198 174 L 214 180 Q 225 198 222 220 L 206 224 Q 199 207 193 190 Z' },
+  { slug:'forearm',    id:'bfa-R', path:'M 222 220 L 235 252 Q 239 271 233 281 L 217 277 Q 214 258 210 238 L 206 224 Z' },
+  { slug:'thigh',      id:'gl-L',  path:'M 110 267 L 107 318 Q 108 338 130 342 L 137 338 L 137 268 Z' },
+  { slug:'thigh',      id:'gl-R',  path:'M 170 267 L 173 318 Q 172 338 150 342 L 143 338 L 143 268 Z' },
+  { slug:'thigh',      id:'bth-L', path:'M 107 318 L 107 360 L 131 360 L 128 342 Z' },
+  { slug:'thigh',      id:'bth-R', path:'M 173 318 L 173 360 L 149 360 L 152 342 Z' },
+  { slug:'calf',       id:'ca-L',  path:'M 107 360 L 108 410 L 131 410 L 131 360 Z' },
+  { slug:'calf',       id:'ca-R',  path:'M 173 360 L 172 410 L 149 410 L 149 360 Z' },
+  { slug:'ankle',      id:'ban-L', path:'M 108 410 L 106 441 Q 106 454 115 458 L 131 458 Q 137 454 135 441 L 131 410 Z' },
+  { slug:'ankle',      id:'ban-R', path:'M 172 410 L 174 441 Q 174 454 165 458 L 149 458 Q 143 454 145 441 L 149 410 Z' },
+]
+
+/* ── DOT LABEL POSITIONS ─────────────────────────────── */
+const FRONT_LABELS: Record<string, { cx:number; cy:number }> = {
+  'sh-L': { cx:78,  cy:148 }, 'ch':   { cx:140, cy:147 },
+  'rb':   { cx:140, cy:200 }, 'fa-L': { cx:51,  cy:252 },
+  'ia-L': { cx:76,  cy:184 }, 'hp':   { cx:140, cy:251 },
+  'th-L': { cx:114, cy:312 }, 'an-L': { cx:114, cy:432 },
+  'sp':   { cx:140, cy:188 },
+}
+const BACK_LABELS: Record<string, { cx:number; cy:number }> = {
+  'bsh-L':{ cx:78,  cy:148 }, 'ub':   { cx:140, cy:162 },
+  'lb':   { cx:140, cy:236 }, 'bfa-L':{ cx:51,  cy:252 },
+  'bsp':  { cx:157, cy:188 }, 'gl-L': { cx:114, cy:304 },
+  'bth-L':{ cx:114, cy:340 }, 'ca-L': { cx:114, cy:385 },
+  'ban-L':{ cx:114, cy:432 },
 }
 
 export default function PlacementMap({ placements }: Props) {
   const { t } = useLanguage()
-  const [selected, setSelected] = useState<Placement | null>(null)
-  const [hovered, setHovered] = useState<string | null>(null)
+  const [selected, setSelected]   = useState<Placement | null>(null)
+  const [hovered,  setHovered]    = useState<string | null>(null)
+  const [view,     setView]       = useState<'front'|'back'>('front')
+  const [flipping, setFlipping]   = useState(false)
 
-  const getPlacement = (slug: string) => placements.find(p => p.slug === slug)
-
-  const painLabel = (level: number) =>
-    t({ en: ['', 'Very Low', 'Low', 'Medium', 'High', 'Intense'][level] as string,
-        es: ['', 'Muy bajo', 'Bajo', 'Medio', 'Alto', 'Intenso'][level] as string })
+  const getP = (slug: string) => placements.find(p => p.slug === slug)
+  const painLabel = (n: number) =>
+    t({ en:['','Very Low','Low','Medium','High','Intense'][n] as string,
+        es:['','Muy bajo','Bajo','Medio','Alto','Intenso'][n] as string })
 
   const relatedStyles = selected ? styles.filter(s => selected.recommendedStyles.includes(s.slug)) : []
 
-  // Unique placements for dot labels (one per slug, pick first zone that has a label entry)
-  const dotZones = ZONES.filter(z => ZONE_LABELS[z.id])
+  const handleFlip = () => {
+    if (flipping) return
+    setFlipping(true)
+    setSelected(null)
+    setTimeout(() => {
+      setView(v => v === 'front' ? 'back' : 'front')
+      setFlipping(false)
+    }, 320)
+  }
+
+  const zones      = view === 'front' ? FRONT_ZONES : BACK_ZONES
+  const labelMap   = view === 'front' ? FRONT_LABELS : BACK_LABELS
+  const dotZones   = zones.filter(z => labelMap[z.id])
+  const glowFilter = (lvl: number) =>
+    lvl <= 2 ? 'url(#g-teal)' : lvl === 3 ? 'url(#g-yellow)' : lvl === 4 ? 'url(#g-orange)' : 'url(#g-red)'
 
   return (
-    <div className="grid md:grid-cols-2 gap-10 items-start">
+    <div className="grid md:grid-cols-2 gap-8 items-start">
       <style>{`
-        @keyframes zone-pulse {
-          0%, 100% { opacity: 0.72; }
-          50%       { opacity: 1; }
-        }
-        @keyframes zone-pulse-fast {
-          0%, 100% { opacity: 0.65; }
-          50%       { opacity: 1; }
-        }
-        @keyframes spin-dash {
-          to { stroke-dashoffset: -40; }
-        }
-        @keyframes body-breathe {
-          0%, 100% { transform: scaleY(1);   }
-          50%       { transform: scaleY(1.008); }
-        }
-        @keyframes float-in {
-          from { opacity: 0; transform: translateY(4px); }
-          to   { opacity: 1; transform: translateY(0);   }
-        }
-        .zone-path {
-          transition: filter 0.18s ease, opacity 0.18s ease;
-          cursor: pointer;
-        }
-        .zone-path:hover {
-          filter: brightness(1.45) saturate(1.3);
-        }
-        .body-group {
-          animation: body-breathe 5s ease-in-out infinite;
-          transform-origin: center;
-        }
-        .tooltip-label {
-          animation: float-in 0.15s ease forwards;
-          pointer-events: none;
-        }
+        @keyframes zpulse { 0%,100%{opacity:.68} 50%{opacity:1} }
+        @keyframes zpulse-fast { 0%,100%{opacity:.6} 50%{opacity:1} }
+        @keyframes dashmove { to{stroke-dashoffset:-40} }
+        @keyframes breathe { 0%,100%{transform:scaleY(1)} 50%{transform:scaleY(1.007)} }
+        @keyframes floatin { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes flipout { 0%{transform:perspective(500px) rotateY(0deg);opacity:1}
+                            100%{transform:perspective(500px) rotateY(90deg);opacity:0} }
+        @keyframes flipin  { 0%{transform:perspective(500px) rotateY(-90deg);opacity:0}
+                            100%{transform:perspective(500px) rotateY(0deg);opacity:1} }
+        .zone-path { cursor:pointer; transition:filter .15s,opacity .15s; }
+        .zone-path:hover { filter:brightness(1.5) saturate(1.3); }
+        .body-breathe { animation:breathe 5s ease-in-out infinite; transform-origin:center; }
+        .tip-label { animation:floatin .15s ease forwards; pointer-events:none; }
+        .flip-out  { animation:flipout .32s ease forwards; }
+        .flip-in   { animation:flipin  .32s ease forwards; }
       `}</style>
 
-      {/* ─── SVG Body Map ─────────────────────────── */}
-      <div className="flex flex-col items-center select-none">
-        <svg viewBox="0 0 280 490" className="w-full max-w-[210px] mx-auto overflow-visible">
-          <defs>
-            {/* Body volume gradient — lit from top-left */}
-            <radialGradient id="body-grad" cx="40%" cy="30%" r="65%">
-              <stop offset="0%"   stopColor="#3a3a3a" />
-              <stop offset="60%"  stopColor="#1e1e1e" />
-              <stop offset="100%" stopColor="#0d0d0d" />
-            </radialGradient>
-            {/* Arm gradient */}
-            <radialGradient id="arm-grad" cx="35%" cy="25%" r="70%">
-              <stop offset="0%"   stopColor="#333" />
-              <stop offset="100%" stopColor="#111" />
-            </radialGradient>
-            {/* Highlight shine */}
-            <linearGradient id="shine" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%"  stopColor="#ffffff" stopOpacity="0.07" />
-              <stop offset="50%" stopColor="#ffffff" stopOpacity="0" />
-            </linearGradient>
-            {/* Drop shadow filter for depth */}
-            <filter id="body-shadow" x="-15%" y="-5%" width="130%" height="115%">
-              <feDropShadow dx="4" dy="6" stdDeviation="8" floodColor="#000" floodOpacity="0.6" />
-            </filter>
-            {/* Glow filter for selected/hovered zones */}
-            <filter id="glow-teal"   x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            <filter id="glow-yellow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            <filter id="glow-orange" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="6" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            <filter id="glow-red"    x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="7" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-          </defs>
+      {/* ── Body SVG ── */}
+      <div className="flex flex-col items-center">
 
-          <g className="body-group" filter="url(#body-shadow)">
-            {/* ── BASE BODY SILHOUETTE ── */}
-            {/* Head */}
-            <ellipse cx="140" cy="52" rx="28" ry="34" fill="url(#body-grad)" />
-            <ellipse cx="133" cy="44" rx="10" ry="14" fill="url(#shine)" />
+        {/* Flip button */}
+        <button
+          onClick={handleFlip}
+          className="mb-4 flex items-center gap-2 text-xs text-ink-gray border border-ink-border rounded-full px-4 py-2 hover:border-ink-muted hover:text-ink-white transition-all"
+          style={{ letterSpacing: '0.05em' }}
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M1 4v6h6M23 20v-6h-6"/>
+            <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4-4.64 4.36A9 9 0 0 1 3.51 15"/>
+          </svg>
+          {view === 'front'
+            ? t({ en: 'View Back', es: 'Ver espalda' })
+            : t({ en: 'View Front', es: 'Ver frente' })}
+        </button>
 
-            {/* Neck */}
-            <path d="M 130 82 Q 128 92 128 98 L 152 98 Q 152 92 150 82 Z" fill="url(#body-grad)" />
+        <div className={flipping ? 'flip-out' : 'flip-in'} style={{ width: '100%' }}>
+          <svg viewBox="0 0 280 490" className="w-full max-w-xs mx-auto overflow-visible">
+            <defs>
+              <radialGradient id="bg" cx="38%" cy="28%" r="65%">
+                <stop offset="0%" stopColor="#3d3d3d"/>
+                <stop offset="55%" stopColor="#1e1e1e"/>
+                <stop offset="100%" stopColor="#0c0c0c"/>
+              </radialGradient>
+              <radialGradient id="ag" cx="35%" cy="25%" r="70%">
+                <stop offset="0%" stopColor="#333"/>
+                <stop offset="100%" stopColor="#111"/>
+              </radialGradient>
+              <linearGradient id="sh" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#fff" stopOpacity=".08"/>
+                <stop offset="50%" stopColor="#fff" stopOpacity="0"/>
+              </linearGradient>
+              <filter id="bshadow" x="-15%" y="-5%" width="130%" height="115%">
+                <feDropShadow dx="4" dy="7" stdDeviation="9" floodColor="#000" floodOpacity=".65"/>
+              </filter>
+              <filter id="g-teal"   x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              <filter id="g-yellow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              <filter id="g-orange" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              <filter id="g-red"    x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            </defs>
 
-            {/* Torso */}
-            <path d="M 96 98 Q 76 105 72 130 L 68 275 Q 82 283 140 285 Q 198 283 212 275 L 208 130 Q 204 105 184 98 Z" fill="url(#body-grad)" />
-            {/* Torso shine highlight */}
-            <path d="M 104 100 Q 90 108 88 130 L 100 280 Q 120 282 140 282 L 140 103 Q 122 98 104 100 Z" fill="url(#shine)" />
+            {/* ── Silhouette ── */}
+            <g className="body-breathe" filter="url(#bshadow)">
+              <ellipse cx="140" cy="52" rx="28" ry="34" fill="url(#bg)"/>
+              <ellipse cx="133" cy="44" rx="10" ry="14" fill="url(#sh)"/>
+              <path d="M 130 82 Q 128 93 128 100 L 152 100 Q 152 93 150 82 Z" fill="url(#bg)"/>
+              <path d="M 96 100 Q 76 107 72 132 L 68 278 Q 82 286 140 288 Q 198 286 212 278 L 208 132 Q 204 107 184 100 Z" fill="url(#bg)"/>
+              <path d="M 104 102 Q 90 110 88 132 L 100 284 Q 120 286 140 285 L 140 105 Q 122 100 104 102 Z" fill="url(#sh)"/>
+              <path d="M 96 100 Q 74 106 62 128 L 42 272 Q 48 280 62 280 L 76 224 L 86 170 Z" fill="url(#ag)"/>
+              <path d="M 184 100 Q 206 106 218 128 L 238 272 Q 232 280 218 280 L 204 224 L 194 170 Z" fill="url(#ag)"/>
+              <path d="M 108 278 L 104 362 L 106 460 Q 118 467 132 467 L 134 362 L 138 288 Z" fill="url(#bg)"/>
+              <path d="M 172 278 L 176 362 L 174 460 Q 162 467 148 467 L 146 362 L 142 288 Z" fill="url(#bg)"/>
+              <ellipse cx="119" cy="467" rx="18" ry="9" fill="#181818"/>
+              <ellipse cx="161" cy="467" rx="18" ry="9" fill="#181818"/>
+              {view === 'front' && <>
+                <path d="M 128 122 Q 130 142 128 162" stroke="#fff" strokeWidth=".5" strokeOpacity=".07" fill="none"/>
+                <path d="M 152 122 Q 150 142 152 162" stroke="#fff" strokeWidth=".5" strokeOpacity=".07" fill="none"/>
+              </>}
+              {view === 'back' && <>
+                {/* Shoulder blade hints */}
+                <path d="M 116 130 Q 112 155 116 178 Q 124 183 132 178 Q 134 155 130 130 Z" fill="#fff" fillOpacity=".04"/>
+                <path d="M 164 130 Q 168 155 164 178 Q 156 183 148 178 Q 146 155 150 130 Z" fill="#fff" fillOpacity=".04"/>
+              </>}
+            </g>
 
-            {/* Left arm */}
-            <path d="M 96 100 Q 74 104 62 126 L 42 270 Q 48 278 62 278 L 76 222 L 86 168 Z" fill="url(#arm-grad)" />
-            <path d="M 96 100 L 86 168 L 80 188 Q 70 175 66 155 L 62 126 Q 74 104 96 100 Z" fill="url(#shine)" />
-
-            {/* Right arm */}
-            <path d="M 184 100 Q 206 104 218 126 L 238 270 Q 232 278 218 278 L 204 222 L 194 168 Z" fill="url(#arm-grad)" />
-
-            {/* Legs */}
-            <path d="M 108 275 L 104 360 L 106 456 Q 118 463 130 463 L 134 360 L 138 285 Z" fill="url(#body-grad)" />
-            <path d="M 172 275 L 176 360 L 174 456 Q 162 463 150 463 L 146 360 L 142 285 Z" fill="url(#body-grad)" />
-
-            {/* Feet */}
-            <ellipse cx="118" cy="464" rx="18" ry="9" fill="#181818" />
-            <ellipse cx="162" cy="464" rx="18" ry="9" fill="#181818" />
-
-            {/* Muscle definition lines */}
-            <path d="M 128 120 Q 130 140 128 160" stroke="#ffffff" strokeWidth="0.5" strokeOpacity="0.08" fill="none"/>
-            <path d="M 152 120 Q 150 140 152 160" stroke="#ffffff" strokeWidth="0.5" strokeOpacity="0.08" fill="none"/>
-            <path d="M 116 165 Q 118 185 120 205" stroke="#ffffff" strokeWidth="0.4" strokeOpacity="0.06" fill="none"/>
-          </g>
-
-          {/* ── PAIN HEAT ZONES ── */}
-          {ZONES.map(zone => {
-            const placement = getPlacement(zone.slug)
-            if (!placement) return null
-            const isSelected = selected?.slug === zone.slug
-            const isHovered  = hovered === zone.slug
-            const color = PAIN_COLORS[placement.painLevel]
-            const glow  = PAIN_GLOW[placement.painLevel]
-            const speed = PAIN_PULSE_SPEED[placement.painLevel]
-            const glowFilter = placement.painLevel <= 2 ? 'url(#glow-teal)' :
-                               placement.painLevel === 3 ? 'url(#glow-yellow)' :
-                               placement.painLevel === 4 ? 'url(#glow-orange)' : 'url(#glow-red)'
-
-            return (
-              <path
-                key={zone.id}
-                d={zone.path}
-                fill={color}
-                opacity={isSelected || isHovered ? 0.95 : 0.68}
-                filter={(isSelected || isHovered) ? glowFilter : undefined}
-                className="zone-path"
-                style={{
-                  animation: `${placement.painLevel >= 4 ? 'zone-pulse-fast' : 'zone-pulse'} ${speed} ease-in-out infinite`,
-                  animationDelay: `${Math.random() * 1.5}s`,
-                  boxShadow: (isSelected || isHovered) ? `0 0 18px ${glow}` : 'none',
-                }}
-                onClick={() => setSelected(placement === selected ? null : placement)}
-                onMouseEnter={() => setHovered(zone.slug)}
-                onMouseLeave={() => setHovered(null)}
-              />
-            )
-          })}
-
-          {/* ── SELECTED ZONE: animated dashed border ── */}
-          {selected && ZONES.filter(z => z.slug === selected.slug).map(zone => (
-            <path
-              key={`sel-${zone.id}`}
-              d={zone.path}
-              fill="none"
-              stroke="#ffffff"
-              strokeWidth="1.5"
-              strokeDasharray="6 4"
-              strokeOpacity="0.9"
-              style={{ animation: 'spin-dash 1.2s linear infinite', pointerEvents: 'none' }}
-            />
-          ))}
-
-          {/* ── ZONE DOT LABELS ── */}
-          {dotZones.map(zone => {
-            const placement = getPlacement(zone.slug)
-            if (!placement) return null
-            const label = ZONE_LABELS[zone.id]
-            const isSelected = selected?.slug === zone.slug
-            const isHovered  = hovered === zone.slug
-            const color = PAIN_COLORS[placement.painLevel]
-
-            return (
-              <g
-                key={`dot-${zone.id}`}
-                onClick={() => setSelected(placement === selected ? null : placement)}
-                onMouseEnter={() => setHovered(zone.slug)}
-                onMouseLeave={() => setHovered(null)}
-                style={{ cursor: 'pointer' }}
-              >
-                <circle
-                  cx={label.cx} cy={label.cy} r="10"
-                  fill={isSelected ? '#fff' : 'rgba(0,0,0,0.65)'}
-                  stroke={isSelected || isHovered ? color : 'rgba(255,255,255,0.4)'}
-                  strokeWidth={isSelected || isHovered ? 2 : 1.5}
+            {/* ── Pain zones ── */}
+            {zones.map(zone => {
+              const p = getP(zone.slug)
+              if (!p) return null
+              const isSel = selected?.slug === zone.slug
+              const isHov = hovered === zone.slug
+              return (
+                <path
+                  key={zone.id}
+                  d={zone.path}
+                  fill={PC[p.painLevel]}
+                  opacity={isSel || isHov ? .95 : .66}
+                  filter={(isSel || isHov) ? glowFilter(p.painLevel) : undefined}
+                  className="zone-path"
+                  style={{
+                    animation:`${p.painLevel >= 4 ? 'zpulse-fast' : 'zpulse'} ${SPEED[p.painLevel]} ease-in-out infinite`,
+                  }}
+                  onClick={() => setSelected(p === selected ? null : p)}
+                  onMouseEnter={() => setHovered(zone.slug)}
+                  onMouseLeave={() => setHovered(null)}
                 />
-                <text
-                  x={label.cx} y={label.cy + 4}
-                  textAnchor="middle"
-                  fill={isSelected ? color : '#fff'}
-                  fontSize="8.5" fontWeight="700" fontFamily="sans-serif"
-                  style={{ pointerEvents: 'none' }}
+              )
+            })}
+
+            {/* ── Dashed selected border ── */}
+            {selected && zones.filter(z => z.slug === selected.slug).map(zone => (
+              <path key={`sel-${zone.id}`} d={zone.path} fill="none"
+                stroke="#fff" strokeWidth="1.5" strokeDasharray="6 4" strokeOpacity=".9"
+                style={{ animation:'dashmove 1.1s linear infinite', pointerEvents:'none' }}
+              />
+            ))}
+
+            {/* ── Dots + hit targets ── */}
+            {dotZones.map(zone => {
+              const p = getP(zone.slug)
+              if (!p) return null
+              const lbl = labelMap[zone.id]
+              const isSel = selected?.slug === zone.slug
+              const isHov = hovered === zone.slug
+              return (
+                <g key={`dot-${zone.id}`}
+                  onClick={() => setSelected(p === selected ? null : p)}
+                  onMouseEnter={() => setHovered(zone.slug)}
+                  onMouseLeave={() => setHovered(null)}
+                  style={{ cursor:'pointer' }}
                 >
-                  {placement.painLevel}
-                </text>
+                  {/* Large invisible hit target for mobile */}
+                  <circle cx={lbl.cx} cy={lbl.cy} r="20" fill="transparent"/>
+                  {/* Visual dot */}
+                  <circle cx={lbl.cx} cy={lbl.cy} r="11"
+                    fill={isSel ? '#fff' : 'rgba(0,0,0,.7)'}
+                    stroke={isSel || isHov ? PC[p.painLevel] : 'rgba(255,255,255,.45)'}
+                    strokeWidth={isSel || isHov ? 2 : 1.5}
+                  />
+                  <text x={lbl.cx} y={lbl.cy + 4} textAnchor="middle"
+                    fill={isSel ? PC[p.painLevel] : '#fff'}
+                    fontSize="9" fontWeight="700" fontFamily="sans-serif"
+                    style={{ pointerEvents:'none' }}>
+                    {p.painLevel}
+                  </text>
+                  {/* Hover tooltip */}
+                  {isHov && !isSel && (
+                    <g className="tip-label">
+                      <rect x={lbl.cx - 30} y={lbl.cy - 30} width="60" height="17" rx="4"
+                        fill="rgba(0,0,0,.9)" stroke={PC[p.painLevel]} strokeWidth=".8"/>
+                      <text x={lbl.cx} y={lbl.cy - 18} textAnchor="middle"
+                        fill="#fff" fontSize="7.5" fontFamily="sans-serif"
+                        style={{ pointerEvents:'none' }}>
+                        {t(p.name)}
+                      </text>
+                    </g>
+                  )}
+                </g>
+              )
+            })}
+          </svg>
+        </div>
 
-                {/* Hover tooltip */}
-                {isHovered && !isSelected && (
-                  <g className="tooltip-label">
-                    <rect
-                      x={label.cx - 26} y={label.cy - 28}
-                      width="52" height="16" rx="4"
-                      fill="rgba(0,0,0,0.88)" stroke={color} strokeWidth="0.8"
-                    />
-                    <text
-                      x={label.cx} y={label.cy - 17}
-                      textAnchor="middle"
-                      fill="#fff" fontSize="7" fontFamily="sans-serif"
-                      style={{ pointerEvents: 'none' }}
-                    >
-                      {t(placement.name)}
-                    </text>
-                  </g>
-                )}
-              </g>
-            )
-          })}
-        </svg>
-
-        {/* ── LEGEND ── */}
-        <div className="mt-5 flex items-center gap-0.5 rounded-full border border-ink-border bg-ink-card px-1 py-1">
+        {/* Legend */}
+        <div className="mt-4 flex items-center rounded-full border border-ink-border bg-ink-card px-1 py-1">
           {([
-            { label: t({ en: 'Low', es: 'Bajo' }),     color: '#2DD4BF' },
-            { label: t({ en: 'Med', es: 'Medio' }),    color: '#FACC15' },
-            { label: t({ en: 'High', es: 'Alto' }),    color: '#F97316' },
-            { label: t({ en: 'Intense', es: 'Intenso' }), color: '#EF4444' },
-          ] as { label: string; color: string }[]).map(({ label, color }) => (
-            <div key={label} className="flex items-center gap-1.5 px-2.5 py-1">
-              <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: color, boxShadow: `0 0 5px ${color}` }} />
-              <span className="text-xs text-ink-gray">{label}</span>
+            { l: t({ en:'Low',     es:'Bajo'     }), c:'#2DD4BF' },
+            { l: t({ en:'Med',     es:'Medio'    }), c:'#FACC15' },
+            { l: t({ en:'High',    es:'Alto'     }), c:'#F97316' },
+            { l: t({ en:'Intense', es:'Intenso'  }), c:'#EF4444' },
+          ] as {l:string;c:string}[]).map(({ l, c }) => (
+            <div key={l} className="flex items-center gap-1.5 px-2.5 py-1">
+              <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor:c, boxShadow:`0 0 5px ${c}` }}/>
+              <span className="text-xs text-ink-gray">{l}</span>
             </div>
           ))}
         </div>
         <p className="text-xs text-ink-gray mt-2 text-center opacity-60">
-          {t({ en: 'Tap any zone to explore', es: 'Toca una zona para explorar' })}
+          {t({ en:'Tap any zone to explore', es:'Toca una zona para explorar' })}
         </p>
       </div>
 
-      {/* ─── Info Panel ─────────────────────────── */}
+      {/* ── Info Panel ── */}
       <div>
         {selected ? (
-          <div className="bg-ink-card border border-ink-border rounded-xl p-6 space-y-5" style={{ borderColor: PAIN_COLORS[selected.painLevel] + '55' }}>
+          <div className="bg-ink-card border border-ink-border rounded-xl p-6 space-y-5"
+            style={{ borderColor: PC[selected.painLevel] + '44' }}>
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-xs text-ink-gray uppercase tracking-widest mb-1">
-                  {t({ en: 'Selected zone', es: 'Zona seleccionada' })}
+                  {t({ en:'Selected zone', es:'Zona seleccionada' })}
                 </p>
                 <h3 className="font-heading text-3xl text-ink-white">{t(selected.name)}</h3>
               </div>
-              <button onClick={() => setSelected(null)} className="text-ink-gray hover:text-ink-white text-2xl leading-none mt-1 transition-colors">×</button>
+              <button onClick={() => setSelected(null)}
+                className="text-ink-gray hover:text-ink-white text-2xl leading-none mt-1 transition-colors">×</button>
             </div>
 
             {/* Pain bar */}
             <div>
-              <div className="flex justify-between text-xs text-ink-gray mb-1.5">
-                <span>{t({ en: 'Pain level', es: 'Nivel de dolor' })}</span>
-                <span style={{ color: PAIN_COLORS[selected.painLevel] }}>{painLabel(selected.painLevel)} — {selected.painLevel}/5</span>
+              <div className="flex justify-between text-xs text-ink-gray mb-2">
+                <span>{t({ en:'Pain level', es:'Nivel de dolor' })}</span>
+                <span style={{ color: PC[selected.painLevel] }}>
+                  {painLabel(selected.painLevel)} · {selected.painLevel}/5
+                </span>
               </div>
               <div className="h-1.5 bg-ink-muted rounded-full overflow-hidden">
-                <div
-                  className="h-full rounded-full transition-all duration-700"
-                  style={{
-                    width: `${(selected.painLevel / 5) * 100}%`,
-                    backgroundColor: PAIN_COLORS[selected.painLevel],
-                    boxShadow: `0 0 8px ${PAIN_GLOW[selected.painLevel]}`,
-                  }}
-                />
+                <div className="h-full rounded-full transition-all duration-700"
+                  style={{ width:`${(selected.painLevel/5)*100}%`, backgroundColor: PC[selected.painLevel], boxShadow:`0 0 8px ${PG[selected.painLevel]}` }}/>
               </div>
             </div>
 
-            {/* Stats grid */}
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-ink-black rounded-lg p-3">
-                <p className="text-xs text-ink-gray mb-1">{t({ en: 'Healing', es: 'Cicatrización' })}</p>
+                <p className="text-xs text-ink-gray mb-1">{t({ en:'Healing', es:'Cicatrización' })}</p>
                 <p className="font-heading text-base text-ink-white capitalize">{selected.healingComplexity}</p>
               </div>
               <div className="bg-ink-black rounded-lg p-3">
-                <p className="text-xs text-ink-gray mb-1">{t({ en: '1st timer?', es: '¿Primerizo?' })}</p>
+                <p className="text-xs text-ink-gray mb-1">{t({ en:'1st timer?', es:'¿Primerizo?' })}</p>
                 <p className={`font-heading text-base ${selected.firstTimerFriendly ? 'text-green-400' : 'text-red-400'}`}>
-                  {selected.firstTimerFriendly
-                    ? t({ en: '✓ Yes', es: '✓ Sí' })
-                    : t({ en: '✗ No', es: '✗ No' })}
+                  {selected.firstTimerFriendly ? t({ en:'✓ Yes', es:'✓ Sí' }) : t({ en:'✗ No', es:'✗ No' })}
                 </p>
               </div>
             </div>
@@ -347,7 +328,7 @@ export default function PlacementMap({ placements }: Props) {
 
             <div>
               <p className="text-xs text-ink-gray uppercase tracking-wider mb-2">
-                {t({ en: 'Works great with', es: 'Funciona bien con' })}
+                {t({ en:'Works great with', es:'Funciona bien con' })}
               </p>
               <div className="flex flex-wrap gap-2">
                 {relatedStyles.map(s => (
@@ -361,25 +342,28 @@ export default function PlacementMap({ placements }: Props) {
 
             <a href="https://instagram.com/ar.inks" target="_blank" rel="noopener noreferrer"
               className="block w-full text-center bg-ink-red text-white text-sm font-medium py-2.5 rounded-lg hover:opacity-90 transition-opacity">
-              {t({ en: 'Book this spot → DM @ar.inks', es: 'Reservar esta zona → DM @ar.inks' })}
+              {t({ en:'Book this spot → DM @ar.inks', es:'Reservar esta zona → DM @ar.inks' })}
             </a>
           </div>
         ) : (
           <div className="bg-ink-card border border-ink-border rounded-xl p-8 text-center">
-            <div className="w-14 h-14 rounded-full bg-ink-muted flex items-center justify-center mx-auto mb-4" style={{ boxShadow: '0 0 20px rgba(193,59,42,0.3)' }}>
+            <div className="w-14 h-14 rounded-full bg-ink-muted flex items-center justify-center mx-auto mb-4"
+              style={{ boxShadow:'0 0 20px rgba(193,59,42,.3)' }}>
               <span className="text-ink-red text-2xl">↑</span>
             </div>
             <p className="font-heading text-xl text-ink-white mb-2">
-              {t({ en: 'Select a zone', es: 'Selecciona una zona' })}
+              {t({ en:'Select a zone', es:'Selecciona una zona' })}
             </p>
             <p className="text-sm text-ink-gray leading-relaxed mb-6">
-              {t({ en: 'Tap any glowing zone on the body map to see pain level, healing time, and recommended styles.', es: 'Toca cualquier zona iluminada para ver nivel de dolor, cicatrización y estilos recomendados.' })}
+              {t({ en:'Tap any glowing zone to see pain level, healing time, and recommended styles. Flip the body to explore the back too.',
+                   es:'Toca cualquier zona iluminada para ver dolor, cicatrización y estilos. Rota el cuerpo para explorar la espalda también.' })}
             </p>
             <div className="grid grid-cols-2 gap-1.5 text-left">
               {placements.map(p => (
                 <button key={p.slug} onClick={() => setSelected(p)}
                   className="flex items-center gap-2 text-xs text-ink-gray hover:text-ink-white transition-colors py-1.5 px-2 rounded hover:bg-ink-muted">
-                  <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: PAIN_COLORS[p.painLevel], boxShadow: `0 0 4px ${PAIN_GLOW[p.painLevel]}` }} />
+                  <span className="w-2 h-2 rounded-full shrink-0"
+                    style={{ backgroundColor: PC[p.painLevel], boxShadow:`0 0 4px ${PG[p.painLevel]}` }}/>
                   {t(p.name)}
                 </button>
               ))}

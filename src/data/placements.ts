@@ -115,4 +115,43 @@ export const placements: Placement[] = [
     },
     svgX: 195, svgY: 420,
   },
+  {
+    slug: 'upper-back',
+    name: { en: 'Upper Back', es: 'Espalda alta' },
+    painLevel: 3,
+    recommendedStyles: ['blackwork', 'japanese', 'neo-traditional', 'realism'],
+    healingComplexity: 'moderate',
+    firstTimerFriendly: false,
+    notes: {
+      en: 'The shoulder blade area is one of the best canvases for large, symmetrical pieces. Moderate pain and heals well.',
+      es: 'La zona de los omóplatos es uno de los mejores lienzos para piezas grandes y simétricas. Dolor moderado y sana bien.',
+    },
+    svgX: 140, svgY: 155,
+  },
+  {
+    slug: 'lower-back',
+    name: { en: 'Lower Back', es: 'Espalda baja' },
+    painLevel: 4,
+    recommendedStyles: ['fine-line', 'minimalist', 'dotwork', 'watercolor'],
+    healingComplexity: 'moderate',
+    firstTimerFriendly: false,
+    notes: {
+      en: 'Close to the spine and hip bones so pain is higher. Lower back pieces are iconic — worth it.',
+      es: 'Cerca de la columna y los huesos de cadera, el dolor es mayor. Las piezas de espalda baja son icónicas — vale la pena.',
+    },
+    svgX: 140, svgY: 230,
+  },
+  {
+    slug: 'calf',
+    name: { en: 'Calf', es: 'Pantorrilla' },
+    painLevel: 3,
+    recommendedStyles: ['blackwork', 'geometric', 'japanese', 'realism'],
+    healingComplexity: 'easy',
+    firstTimerFriendly: false,
+    notes: {
+      en: 'Muscular area with great ink retention. Popular for bold pieces that show well when walking.',
+      es: 'Zona muscular con excelente retención de tinta. Popular para piezas llamativas que se ven bien al caminar.',
+    },
+    svgX: 140, svgY: 380,
+  },
 ]
